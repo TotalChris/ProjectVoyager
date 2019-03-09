@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Voyager File Manager</title>
+        <link rel="stylesheet" href="sift.css"/>
+    </head>
+    <body onload="goToFolder('C:/')">
+        <div id="titlewrapper"><div id="titlebar"></div></div>
+        <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
+        <input type="button" id="gobutton" value="Go" onclick="goToFolder(document.getElementById('pathbox').value)">
+        <div id="content-box-holder">
+            <table id="filelist">
+
+            </table>
+        </div>
+        <script>
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.on('igot', (evt, args) => {
+                if (args.contentType === 'text/html'){
+                    document.getElementById('filelist').innerHTML = args.pagedata;
+                } else {
+                    //set rules for content viewing
+                }
+            });
+            function textFieldKeyHandler(event) {
+                if (event.key === 'Enter') {
+                    goToFolder(document.getElementById('pathbox').value)
+                }
+                else {}
+            }
+            function goToFolder(path) { //use an onclick here
+                if (path.indexOf('.') === -1) {
+                cd = path;
+                document.getElementById('pathbox').value = path;
+                console.log(path); //log the path here
+                } else {}
+                ipcRenderer.send('getme', path);
+            }
+        </script>
+    </body>
+</html>

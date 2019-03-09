@@ -10,9 +10,9 @@ function getFolderContents(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
             if (element.indexOf('.') === -1) {
-            foldersout += (`<a href="./${element}/">${element}/</a><br>`)
+            foldersout += (`<tr><td onclick="goToFolder(cd + '${element}/')">${element}/</td></tr>`)
             } else {
-            filesout += (`<a href="${element}">${element}</a><br>`)
+            filesout += (`<tr><td onclick="goToFolder(cd + '${element}')">${element}</td></tr>`)
             }
         });
         return foldersout + filesout

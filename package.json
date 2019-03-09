@@ -4,7 +4,8 @@
   "description": "A new and universal file manager built for the way you work.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,8 @@
   "homepage": "https://github.com/TotalChris/ProjectVoyager#readme",
   "devDependencies": {
     "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "electron": "^4.0.7"
   }
 }
