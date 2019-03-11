@@ -3,7 +3,7 @@
         <title>Voyager File Manager</title>
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goToFolder('C:/')">
+    <body onload="goToFolder(path)">
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
@@ -21,10 +21,13 @@
             </table>
         </div>
         <script>
+            var path = '/';
             const { ipcRenderer } = require('electron');
             ipcRenderer.on('igot', (evt, args) => {
                 if (args.contentType === 'text/html'){
                     document.getElementById('filelist').innerHTML = args.pagedata;
+                    path = args.pathString;
+                    document.getElementById('pathbox').value = path;
                 } else {
                     //set rules for content viewing
                 }
@@ -43,13 +46,11 @@
                 }
                 else {}
             }
-            function goToFolder(path) { //use an onclick here
-                if (path.indexOf('.') === -1) {
-                cd = path;
-                document.getElementById('pathbox').value = path;
-                console.log(path); //log the path here
+            function goToFolder(pathString) { //use an onclick here
+                if (pathString.indexOf('.') === -1) {
+                console.log(pathString); //log the path here
                 } else {}
-                ipcRenderer.send('getme', path);
+                ipcRenderer.send('getme', pathString);
             }
         </script>
     </body>

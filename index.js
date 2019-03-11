@@ -64,7 +64,8 @@ ipcMain.on('getme', (evt, pathString) => {
 
         });
     } else {
-        evt.sender.send('igot', { 'pagedata': siftlib.sift(pathString), 'contentType': 'text/html' });
+        if((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'};
+        evt.sender.send('igot', { 'pathString': pathString, 'pagedata': siftlib.sift(pathString), 'contentType': 'text/html' });
     }
 
 

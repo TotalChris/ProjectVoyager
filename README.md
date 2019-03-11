@@ -53,7 +53,7 @@ The best way to navigate files as of right now is to use the text bar to type in
 
 * When starting, Voyager looks for the root ('/') directory by default. Trying to access files using this prefix on Windows (And possibly OSx, untested) will throw an error. A platform-specific compatibility patch is being worked on.
 
-* If Voyager cannot access a file, or throws an error on opening something, the value of the file or folder is still added to the address bar. This will make any subsequent navigation fail because the path will not exist. Detection methods are being tested.
+* ~~If Voyager cannot access a file, or throws an error on opening something, the value of the file or folder is still added to the address bar. This will make any subsequent navigation fail because the path will not exist. Detection methods are being tested.~~ Issue Fixed, will update readme soon.
 
 ***
 **Final Words**
