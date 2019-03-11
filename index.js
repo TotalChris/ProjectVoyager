@@ -58,7 +58,7 @@ ipcMain.on('getme', (evt, pathString) => {
 
         });
     } else {
-        evt.sender.send('igot', { 'pagedata': siftlib.getFolderContents(pathString), 'contentType': 'text/html' });
+        evt.sender.send('igot', { 'pagedata': siftlib.sift(pathString), 'contentType': 'text/html' });
     }
 
 
@@ -85,6 +85,6 @@ ipcMain.on('getme', (evt, pathString) => {
 
         });
     } else {
-        ipcMain.send{ pagedata: siftlib.getFolderContents(pathString), contentType: 'text/html' };
+        ipcMain.send{ pagedata: siftlib.sift(pathString), contentType: 'text/html' };
     }
 }*/

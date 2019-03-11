@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-function getFolderContents(directoryName) { 
+function sift(directoryName) { 
     //gets an array list of folder contents in the given subfolder and makes code to display it
     //'cd' must be predefined as the user's active directory. Make SURE it is declared before running.
     if(directoryName !== '/favicon.ico'){
@@ -46,4 +46,4 @@ function setContentType(filePath){
     }
     return contentType
 }
-module.exports = { getFolderContents , setContentType }
+module.exports = { sift , setContentType }

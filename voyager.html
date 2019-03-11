@@ -6,10 +6,10 @@
     <body onload="goToFolder('C:/')">
     <div id="titlewrapper">
         <div id="titlebar">
-            <div id="bck_btn" onclick="ipcRenderer.send('bck')"><img src="./bin/bck.png"/></div>
-            <div id="cls_btn" onclick="ipcRenderer.send('cls')"><img src="./bin/cls.png"/></div>
-            <div id="rsz_btn" onclick="ipcRenderer.send('rsz')"><img src="./bin/max.png"/></div>
-            <div id="min_btn" onclick="ipcRenderer.send('min')"><img src="./bin/min.png"/></div>
+            <div id="bck_btn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
+            <div id="cls_btn" onclick="ipcRenderer.send('cls')"><img src="./bin/img/cls.png"/></div>
+            <div id="rsz_btn" onclick="ipcRenderer.send('rsz')"><img src="./bin/img/max.png"/></div>
+            <div id="min_btn" onclick="ipcRenderer.send('min')"><img src="./bin/img/min.png"/></div>
         </div>
     </div>
         <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
@@ -29,11 +29,11 @@
                 }
             });
             ipcRenderer.on('maxd', () => {
-                document.getElementById('rsz_btn').innerHTML='<img src="./bin/res.png"/>';
+                document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/res.png"/>';
                 console.log('maximized on renderer');
             });
             ipcRenderer.on('resd', () => {
-                document.getElementById('rsz_btn').innerHTML='<img src="./bin/max.png"/>';
+                document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/max.png"/>';
                 console.log('resized on renderer');
             });
             function textFieldKeyHandler(event) {
