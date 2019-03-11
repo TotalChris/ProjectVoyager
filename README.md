@@ -2,8 +2,8 @@
 A new and universal file manager built for the way you work.
 
 * Feedback: siftdevelopment@gmail.com
-* Telegram: t.me/ProjectVoyager
-* Donate: paypal.me/siftware
+* Telegram: [t.me/ProjectVoyager](t.me/ProjectVoyager])
+* Donate: [paypal.me/siftware](paypal.me/siftware)
 (Please donate if you can, it really helps.)
 
 ***
