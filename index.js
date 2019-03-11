@@ -37,6 +37,12 @@ let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPrefer
     ipcMain.on('cls', () => {
         win.close();
     })
+    ipcMain.on('bck', (evt) => {
+        //Back functionality here
+    })
+    ipcMain.on('fwd', (evt) => {
+        //Forward functionality here
+    })
 }
 app.on('ready', createWindow)
 ipcMain.on('getme', (evt, pathString) => {

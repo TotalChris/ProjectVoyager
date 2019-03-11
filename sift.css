@@ -41,16 +41,16 @@ body {
     width: 35px;
     -webkit-app-region: no-drag;
   }
-  #bck_btn {
+  #bck_btn, #fwd_btn {
     float: left;
     height: 35px;
     width: 35px;
     -webkit-app-region: no-drag;
   }
-  #min_btn:hover, #rsz_btn:hover, #cls_btn:hover, #bck_btn:hover {
+  #min_btn:hover, #rsz_btn:hover, #cls_btn:hover, #bck_btn:hover, #fwd_btn:hover {
     background-color: #ddd;
     -webkit-app-region: no-drag;
   }
-  #min_btn img, #rsz_btn img, #cls_btn img, #bck_btn img {
+  #min_btn img, #rsz_btn img, #cls_btn img, #bck_btn img, #fwd_btn img{
     padding: 8.5px;
   }
