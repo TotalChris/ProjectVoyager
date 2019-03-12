@@ -4,7 +4,7 @@ const siftlib = require('./siftlib');
 const path = require('path');
 const { app, BrowserWindow, ipcMain, shell } = require('electron')
 var hindex = 0
-var hist = ['/'];
+var hist = [];
 function createWindow() {
 
 let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPreferences: { experimentalFeatures: true} })
@@ -37,17 +37,19 @@ let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPrefer
     })
     ipcMain.on('bck', (evt) => {
         if (hindex > 0){
-            evt.sender.send('goget', hist[hindex - 1])
+            hindex--
+            evt.sender.send('goget', hist[hindex])
         }
     })
     ipcMain.on('fwd', (evt) => {
         if((hindex + 1) < hist.length){
-            evt.sender.send('goget', hist[hindex + 1])
+            hindex++
+            evt.sender.send('goget', hist[hindex])
         }
     })
 }
 app.on('ready', createWindow)
-ipcMain.on('getme', (evt, pathString) => {
+ipcMain.on('getme', (evt, pathString, navflag) => {
     if (fs.statSync(pathString).isFile()) {
         fs.readFile(pathString, (err, pagedata) => {
             if(err) {
@@ -66,9 +68,12 @@ ipcMain.on('getme', (evt, pathString) => {
 
         });
     } else {
-        if((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'};
+        if ((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'};
+        if (navflag == 1){
         hindex++
         hist[hindex] = pathString;
+        }
+        console.log({hist, hindex, navflag});
         evt.sender.send('igot', { 'pathString': pathString, 'pagedata': siftlib.sift(pathString), 'contentType': 'text/html' });
     }
 

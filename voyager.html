@@ -41,8 +41,8 @@
                 document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/max.png"/>';
                 console.log('resized on renderer');
             });
-            ipcRenderer.on('goget', (pathString) => {
-                ipcRenderer.send('getme', pathString)
+            ipcRenderer.on('goget', (evt, pathString) => {
+                ipcRenderer.send('getme', pathString, 0)
             });
             function textFieldKeyHandler(event) {
                 if (event.key === 'Enter') {
@@ -54,7 +54,7 @@
                 if (fs.statSync(pathString).isFile()) {
                 console.log(pathString); //log the path here
                 } else {}
-                ipcRenderer.send('getme', pathString);
+                ipcRenderer.send('getme', pathString, 1);
             }
         </script>
     </body>
