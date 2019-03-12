@@ -3,21 +3,20 @@ const fs = require('fs');
 
 function sift(directoryName) { 
     if(directoryName !== '/favicon.ico'){
-    filelist = fs.readdirSync(directoryName, 'utf8');
+    filelist = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
         var filesout = ``;
         var foldersout = ``;
         filelist.forEach((element) => {
-            if (!(fs.statSync(directoryName + element).isFile())) { //directoryName + element = pathString
-            foldersout += (`<tr><td onclick="goToFolder(path + '${element}/')">${element}/</td></tr>`)
-            } else {
-            filesout += (`<tr><td onclick="goToFolder(path + '${element}')">${element}</td></tr>`)
-            }
-        });
+//TODO: Cannot get fs.stats on ANY locked folder or file. This will kill functionality on windows.
+                if (element.isDirectory()) {
+                foldersout += (`<tr><td onclick="goToFolder(path + '${element.name}/')">${element.name}/</td></tr>`)
+                } else {
+                filesout += (`<tr><td onclick="goToFolder(path + '${element.name}')">${element.name}</td></tr>`)
+                }
+            })
+        };
         return foldersout + filesout
-    } else {
-
     }
-}
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
