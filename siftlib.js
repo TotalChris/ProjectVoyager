@@ -7,7 +7,7 @@ function sift(directoryName) {
         var filesout = ``;
         var foldersout = ``;
         filelist.forEach((element) => {
-            if (element.indexOf('.') === -1) {
+            if (!(fs.statSync(directoryName + element).isFile())) {
             foldersout += (`<tr><td onclick="goToFolder(path + '${element}/')">${element}/</td></tr>`)
             } else {
             filesout += (`<tr><td onclick="goToFolder(path + '${element}')">${element}</td></tr>`)

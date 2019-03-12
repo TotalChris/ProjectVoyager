@@ -22,11 +22,9 @@ let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPrefer
     })
     ipcMain.on('rsz', (evt) => {
         if (win.isMaximized() === false) {
-            console.log('maximized on main');
             win.maximize();
             evt.sender.send('maxd');
         } else {
-            console.log('resized on main');
             win.restore();
             evt.sender.send('resd');
         }
@@ -46,7 +44,7 @@ let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPrefer
 }
 app.on('ready', createWindow)
 ipcMain.on('getme', (evt, pathString) => {
-    if (path.basename(pathString).indexOf('.') !== -1) {
+    if (fs.statSync(pathString).isFile()) {
         fs.readFile(pathString, (err, pagedata) => {
             if(err) {
                 if(err.code == 'ENOENT') {
