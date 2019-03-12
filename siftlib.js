@@ -1,4 +1,4 @@
-const path = require('path');
+/*const path = require('path');*/
 const fs = require('fs');
 
 function sift(directoryName) { 
@@ -7,7 +7,7 @@ function sift(directoryName) {
         var filesout = ``;
         var foldersout = ``;
         filelist.forEach((element) => {
-            if (!(fs.statSync(directoryName + element).isFile())) {
+            if (!(fs.statSync(directoryName + element).isFile())) { //directoryName + element = pathString
             foldersout += (`<tr><td onclick="goToFolder(path + '${element}/')">${element}/</td></tr>`)
             } else {
             filesout += (`<tr><td onclick="goToFolder(path + '${element}')">${element}</td></tr>`)
@@ -18,7 +18,7 @@ function sift(directoryName) {
 
     }
 }
-function setContentType(filePath){
+/*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
         //find appropriate content type 
@@ -43,5 +43,5 @@ function setContentType(filePath){
         contentType = 'text/html'
     }
     return contentType
-}
-module.exports = { sift , setContentType }
+}*/
+module.exports = { sift }

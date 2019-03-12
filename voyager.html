@@ -41,6 +41,9 @@
                 document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/max.png"/>';
                 console.log('resized on renderer');
             });
+            ipcRenderer.on('goget', (pathString) => {
+                ipcRenderer.send('getme', pathString)
+            });
             function textFieldKeyHandler(event) {
                 if (event.key === 'Enter') {
                     goToFolder(document.getElementById('pathbox').value)

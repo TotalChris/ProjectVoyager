@@ -3,11 +3,11 @@ const http = require('http');
 const siftlib = require('./siftlib');
 const path = require('path');
 const { app, BrowserWindow, ipcMain, shell } = require('electron')
-//render process will remain at localhost:8080 until electron can be used
+var hindex = 0
+var hist = ['/'];
 function createWindow() {
 
 let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPreferences: { experimentalFeatures: true} })
-//
     win.loadFile('voyager.html')
     win.on('closed', () => {
         win = null;
@@ -36,10 +36,14 @@ let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPrefer
         win.close();
     })
     ipcMain.on('bck', (evt) => {
-        //Back functionality here
+        if (hindex > 0){
+            evt.sender.send('goget', hist[hindex - 1])
+        }
     })
     ipcMain.on('fwd', (evt) => {
-        //Forward functionality here
+        if((hindex + 1) < hist.length){
+            evt.sender.send('goget', hist[hindex + 1])
+        }
     })
 }
 app.on('ready', createWindow)
@@ -53,8 +57,8 @@ ipcMain.on('getme', (evt, pathString) => {
                         evt.sender.send('igot', { 'pagedata': pagedata, 'contentType': 'text/html'})
                     })
                 } else {
-                    //it's a server error
-                    console.log(`Server Error: ${err.code}`);
+                    //it's a filesystem error
+                    console.log(`FS Error: ${err.code}`);
                 }
             } else {
                 shell.openItem(pathString)
@@ -63,6 +67,8 @@ ipcMain.on('getme', (evt, pathString) => {
         });
     } else {
         if((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'};
+        hindex++
+        hist[hindex] = pathString;
         evt.sender.send('igot', { 'pathString': pathString, 'pagedata': siftlib.sift(pathString), 'contentType': 'text/html' });
     }
 
