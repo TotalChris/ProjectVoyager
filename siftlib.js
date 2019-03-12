@@ -1,15 +1,18 @@
 /*const path = require('path');*/
+const electron = require('electron'); 
 const fs = require('fs');
 var hindex = 0
 var hist = [];
 
 function sift(pathString, navflag) {
+    //navflag is set to 1 if moving using the filelist. This will log history and overwrite the previous entries
+    //if set to 0, history will be ignored. Usuall this is used for library functions that modify the history directly.
     if (fs.statSync(pathString).isFile()) {
         fs.readFile(pathString, (err, pagedata) => {
             if (err) {
                 throw err;
             } else {
-                shell.openItem(pathString)
+                electron.shell.openItem(pathString)
             }
         });
     } else {

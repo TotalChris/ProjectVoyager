@@ -2,9 +2,6 @@
 const fs = require('fs');
 const siftlib = require('./siftlib');
 const { app, BrowserWindow, ipcMain, shell } = require('electron')
-//history variables
-var hindex = 0
-var hist = [];
 
 //functions
 function createWindow() {
