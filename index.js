@@ -73,7 +73,6 @@ ipcMain.on('getme', (evt, pathString, navflag) => {
         hindex++
         hist[hindex] = pathString;
         }
-        console.log({hist, hindex, navflag});
         evt.sender.send('igot', { 'pathString': pathString, 'pagedata': siftlib.sift(pathString), 'contentType': 'text/html' });
     }
 
