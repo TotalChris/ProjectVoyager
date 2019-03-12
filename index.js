@@ -70,9 +70,11 @@ ipcMain.on('getme', (evt, pathString, navflag) => {
     } else {
         if ((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'};
         if (navflag == 1){
+        if ((hindex + 1) !== hist.length){hist.length = hindex + 1}
         hindex++
         hist[hindex] = pathString;
         }
+        console.log({hist, hindex, navflag});
         evt.sender.send('igot', { 'pathString': pathString, 'pagedata': siftlib.sift(pathString), 'contentType': 'text/html' });
     }
 
