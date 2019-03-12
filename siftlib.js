@@ -1,13 +1,48 @@
 /*const path = require('path');*/
 const fs = require('fs');
+var hindex = 0
+var hist = [];
 
-function sift(directoryName) { 
+function sift(pathString, navflag) {
+    if (fs.statSync(pathString).isFile()) {
+        fs.readFile(pathString, (err, pagedata) => {
+            if (err) {
+                throw err;
+            } else {
+                shell.openItem(pathString)
+            }
+        });
+    } else {
+        if ((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'}; //correct path name if need-be
+        if (navflag == 1){
+            if ((hindex + 1) !== hist.length){hist.length = hindex + 1}
+            hindex++
+            hist[hindex] = pathString;
+        }
+        console.log({hist, hindex, navflag});
+        return { 'pathString': pathString, 'pagedata': createDirContent(pathString), 'contentType': 'text/html' };
+    }
+}
+function goBack(){
+    if (hindex > 0){
+        hindex--
+        return sift(hist[hindex], 0);
+    }
+}
+
+function goForth(){
+    if((hindex + 1) < hist.length){
+        hindex++
+        return sift(hist[hindex], 0);
+    }
+}
+
+function createDirContent(directoryName) { 
     if(directoryName !== '/favicon.ico'){
     filelist = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
         var filesout = ``;
         var foldersout = ``;
         filelist.forEach((element) => {
-//TODO: Cannot get fs.stats on ANY locked folder or file. This will kill functionality on windows.
                 if (element.isDirectory()) {
                 foldersout += (`<tr><td onclick="goToFolder(path + '${element.name}/')">${element.name}/</td></tr>`)
                 } else {
@@ -43,4 +78,4 @@ function sift(directoryName) {
     }
     return contentType
 }*/
-module.exports = { sift }
+module.exports = { createDirContent, sift, goBack, goForth }
