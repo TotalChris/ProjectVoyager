@@ -18,9 +18,9 @@
     <div id="pathboxcontainer">
     <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up', pathString)"><img src="./bin/img/up.png"/></div>
     <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
-    <div id="hm_btn" class="topbtn" onclick="goToFolder(os.homedir())"><img src="./bin/img/hm.png"/></div>
-    <div id="rf_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value)"><img src="./bin/img/rf.png"/></div>
-    <div id="go_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value)"><img src="./bin/img/fwd.png"/></div>
+    <div id="hm_btn" class="topbtn" onclick="goToFolder(os.homedir(), 1)"><img src="./bin/img/hm.png"/></div>
+    <div id="rf_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value, 0)"><img src="./bin/img/rf.png"/></div>
+    <div id="go_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value, 1)"><img src="./bin/img/fwd.png"/></div>
     </div>
         <div id="content-box-holder">
             <table id="filelist">
@@ -54,15 +54,15 @@
             });
             function textFieldKeyHandler(event) {
                 if (event.key === 'Enter') {
-                    goToFolder(document.getElementById('pathbox').value)
+                    goToFolder(document.getElementById('pathbox').value, 1)
                 }
                 else {}
             }
-            function goToFolder(pathString) { //use an onclick here
+            function goToFolder(pathString, navflag) { //use an onclick here
                 if (fs.statSync(pathString).isFile()) {
                 console.log(pathString); //log the pathString here
                 } else {}
-                ipcRenderer.send('getme', pathString, 1);
+                ipcRenderer.send('getme', pathString, navflag);
             }
         </script>
     </body>

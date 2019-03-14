@@ -1,9 +1,10 @@
 /*const path = require('path');*/
 const electron = require('electron'); 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 var hindex = 0
-var hist = [];
+var hist = [os.homedir()];
 
 function sift(pathString, navflag) {
     //navflag is set to 1 if moving using the filelist. This will log history and overwrite the previous entries
@@ -20,7 +21,7 @@ function sift(pathString, navflag) {
     } else {
         if ((pathString.lastIndexOf(path.sep)+1) !== pathString.length){pathString += path.sep}; //correct path name if need-be
         if (navflag == 1){
-            if ((hindex + 1) !== hist.length){hist.length = hindex + 1}
+            if (((hindex + 1) !== hist.length) && (hist[hindex] !== pathString)){hist.length = hindex + 1}
             hindex++
             hist[hindex] = pathString;
         }
@@ -51,9 +52,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}')">${element.name}${path.sep}</td></tr>`)
+                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)">${element.name}${path.sep}</td></tr>`)
                 } else {
-                filesout += (`<tr><td onclick="goToFolder(pathString + '${element.name}')">${element.name}</td></tr>`)
+                filesout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)">${element.name}</td></tr>`)
                 }
             })
         };
