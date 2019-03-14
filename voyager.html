@@ -1,21 +1,25 @@
 <html>
     <head>
         <title>Voyager File Manager</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
     <body onload="goToFolder(pathString)">
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
-            <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('fwd')"><img src="./bin/img/fwd.png"/></div>
-            <div id="cls_btn" class="topbtn" onclick="ipcRenderer.send('cls')"><img src="./bin/img/cls.png"/></div>
-            <div id="rsz_btn" class="topbtn" onclick="ipcRenderer.send('rsz')"><img src="./bin/img/max.png"/></div>
+            <div id="fwd_btn" class="topbtn" onclick="ipcRenderer.send('fwd')"><img src="./bin/img/fwd.png"/></div>
+            <div id="titleplace">Voyager File Manager (Beta)</div>
             <div id="min_btn" class="topbtn" onclick="ipcRenderer.send('min')"><img src="./bin/img/min.png"/></div>
+            <div id="rsz_btn" class="topbtn" onclick="ipcRenderer.send('rsz')"><img src="./bin/img/max.png"/></div>
+            <div id="cls_btn" class="topbtn" onclick="ipcRenderer.send('cls')"><img src="./bin/img/cls.png"/></div>
         </div>
     </div>
     <div id="pathboxcontainer">
     <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up', pathString)"><img src="./bin/img/up.png"/></div>
     <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
+    <div id="hm_btn" class="topbtn" onclick="goToFolder(os.homedir())"><img src="./bin/img/hm.png"/></div>
+    <div id="rf_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value)"><img src="./bin/img/rf.png"/></div>
     <div id="go_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value)"><img src="./bin/img/fwd.png"/></div>
     </div>
         <div id="content-box-holder">

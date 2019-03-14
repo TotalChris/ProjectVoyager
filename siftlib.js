@@ -8,6 +8,7 @@ var hist = [];
 function sift(pathString, navflag) {
     //navflag is set to 1 if moving using the filelist. This will log history and overwrite the previous entries
     //if set to 0, history will be ignored. Usuall this is used for library functions that modify the history directly.
+    pathString = path.normalize(pathString)
     if (fs.statSync(pathString).isFile()) {
         fs.readFile(pathString, (err, pagedata) => {
             if (err) {
@@ -17,7 +18,7 @@ function sift(pathString, navflag) {
             }
         });
     } else {
-        if ((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'}; //correct path name if need-be
+        if ((pathString.lastIndexOf(path.sep)+1) !== pathString.length){pathString += path.sep}; //correct path name if need-be
         if (navflag == 1){
             if ((hindex + 1) !== hist.length){hist.length = hindex + 1}
             hindex++
@@ -50,7 +51,7 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}/')">${element.name}/</td></tr>`)
+                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}')">${element.name}${path.sep}</td></tr>`)
                 } else {
                 filesout += (`<tr><td onclick="goToFolder(pathString + '${element.name}')">${element.name}</td></tr>`)
                 }
