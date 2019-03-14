@@ -3,7 +3,7 @@
         <title>Voyager File Manager</title>
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goToFolder(path)">
+    <body onload="goToFolder(pathString)">
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div id="pathboxcontainer">
-    <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up')"><img src="./bin/img/up.png"/></div>
+    <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up', pathString)"><img src="./bin/img/up.png"/></div>
     <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
     <div id="go_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value)"><img src="./bin/img/fwd.png"/></div>
     </div>
@@ -25,14 +25,14 @@
         </div>
         <script>
             const os = require('os');
-            var path = os.homedir();
+            var pathString = os.homedir();
             const { ipcRenderer } = require('electron');
             const fs = require('fs');
             ipcRenderer.on('igot', (evt, args) => {
                 if (args.contentType === 'text/html'){
                     document.getElementById('filelist').innerHTML = args.pagedata;
-                    path = args.pathString;
-                    document.getElementById('pathbox').value = path;
+                    pathString = args.pathString;
+                    document.getElementById('pathbox').value = pathString;
                 } else {
                     //set rules for content viewing
                 }
@@ -56,7 +56,7 @@
             }
             function goToFolder(pathString) { //use an onclick here
                 if (fs.statSync(pathString).isFile()) {
-                console.log(pathString); //log the path here
+                console.log(pathString); //log the pathString here
                 } else {}
                 ipcRenderer.send('getme', pathString, 1);
             }

@@ -1,7 +1,7 @@
 /*const path = require('path');*/
 const electron = require('electron'); 
 const fs = require('fs');
-const os = require('os');
+const path = require('path');
 var hindex = 0
 var hist = [];
 
@@ -40,7 +40,9 @@ function goForth(){
         return sift(hist[hindex], 0);
     }
 }
-
+function goUp(pathString){
+   return sift(path.parse(pathString).dir, 1)
+}
 function createDirContent(directoryName) { 
     if(directoryName !== '/favicon.ico'){
     filelist = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
@@ -48,9 +50,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td onclick="goToFolder(path + '${element.name}/')">${element.name}/</td></tr>`)
+                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}/')">${element.name}/</td></tr>`)
                 } else {
-                filesout += (`<tr><td onclick="goToFolder(path + '${element.name}')">${element.name}</td></tr>`)
+                filesout += (`<tr><td onclick="goToFolder(pathString + '${element.name}')">${element.name}</td></tr>`)
                 }
             })
         };
@@ -82,4 +84,4 @@ function createDirContent(directoryName) {
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth }
+module.exports = { createDirContent, sift, goBack, goForth, goUp }

@@ -48,3 +48,6 @@ ipcMain.on('getme', (evt, pathString, navflag) => {
     evt.sender.send('igot', siftlib.sift(pathString, navflag))
 })
 
+ipcMain.on('up', (evt, pathString) => {
+    evt.sender.send('igot', siftlib.goUp(pathString));
+})
