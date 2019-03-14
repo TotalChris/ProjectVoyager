@@ -6,22 +6,26 @@
     <body onload="goToFolder(path)">
     <div id="titlewrapper">
         <div id="titlebar">
-            <div id="bck_btn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
-            <div id="bck_btn" onclick="ipcRenderer.send('fwd')"><img src="./bin/img/fwd.png"/></div>
-            <div id="cls_btn" onclick="ipcRenderer.send('cls')"><img src="./bin/img/cls.png"/></div>
-            <div id="rsz_btn" onclick="ipcRenderer.send('rsz')"><img src="./bin/img/max.png"/></div>
-            <div id="min_btn" onclick="ipcRenderer.send('min')"><img src="./bin/img/min.png"/></div>
+            <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
+            <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('fwd')"><img src="./bin/img/fwd.png"/></div>
+            <div id="cls_btn" class="topbtn" onclick="ipcRenderer.send('cls')"><img src="./bin/img/cls.png"/></div>
+            <div id="rsz_btn" class="topbtn" onclick="ipcRenderer.send('rsz')"><img src="./bin/img/max.png"/></div>
+            <div id="min_btn" class="topbtn" onclick="ipcRenderer.send('min')"><img src="./bin/img/min.png"/></div>
         </div>
     </div>
-        <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
-        <input type="button" id="gobutton" value="Go" onclick="goToFolder(document.getElementById('pathbox').value)">
+    <div id="pathboxcontainer">
+    <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up')"><img src="./bin/img/up.png"/></div>
+    <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
+    <div id="go_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value)"><img src="./bin/img/fwd.png"/></div>
+    </div>
         <div id="content-box-holder">
             <table id="filelist">
 
             </table>
         </div>
         <script>
-            var path = '/';
+            const os = require('os');
+            var path = os.homedir();
             const { ipcRenderer } = require('electron');
             const fs = require('fs');
             ipcRenderer.on('igot', (evt, args) => {

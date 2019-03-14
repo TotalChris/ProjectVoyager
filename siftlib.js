@@ -1,6 +1,7 @@
 /*const path = require('path');*/
 const electron = require('electron'); 
 const fs = require('fs');
+const os = require('os');
 var hindex = 0
 var hist = [];
 
@@ -12,7 +13,7 @@ function sift(pathString, navflag) {
             if (err) {
                 throw err;
             } else {
-                electron.shell.openItem(pathString)
+                    electron.shell.openItem(pathString)
             }
         });
     } else {
