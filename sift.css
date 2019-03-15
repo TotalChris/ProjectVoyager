@@ -1,3 +1,17 @@
+.light{
+  --invert: #000000;
+  --primary: #FFFFFF;
+  --secondary: #f2f2f2;
+  --trietary: #ddd;
+  --icon-trans: 0%;
+}
+.dark{
+  --invert: #FFFFFF;
+  --primary: #000000;
+  --secondary: #0d0d0d;
+  --trietary: #222;
+  --icon-trans: 100%;
+}
 #filelist, #pathbox, #gobutton, #titleplace {
     font-family: 'Roboto', sans-serif;
     border-collapse: collapse;
@@ -5,15 +19,15 @@
 body {
     margin: 0px;
     overflow: hidden;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--primary);
+    color: var(--invert);
 }
 #titlebar{
   display: flex;
     width: 100%;
     height: 35px;
     -webkit-app-region: drag;
-    background-color: #000000;
+    background-color: var(--primary);
 }
 #content-box-holder{
     height: 100%;
@@ -40,11 +54,11 @@ body {
     font-size: 14px;
     border: 0px;
     width: -webkit-fill-available;
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: var(--primary);
+    color: var(--invert);
   }
-  #filelist tr:nth-child(odd){background-color: #0d0d0d;}
-  #filelist tr:hover {background-color: #222;}
+  #filelist tr:nth-child(odd){background-color: var(--secondary);}
+  #filelist tr:hover {background-color: var(--trietary);}
   #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn {
     float: right;
   }
@@ -57,27 +71,28 @@ body {
     -webkit-app-region: no-drag;
   }
   .topbtn:hover, #pathbox:hover {
-    background-color: #222;
+    background-color: var(--trietary);
   }
   .topbtn img{
     padding: 8.5px;
+    filter: invert(var(--icon-trans));
   }
   /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 14px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: var(--primary); 
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: var(--secondary); 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: var(--trietary); 
 }
