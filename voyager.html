@@ -51,16 +51,29 @@
             });
             function textFieldKeyHandler(event) {
                 if (event.key === 'Enter') {
-                    goToFolder(document.getElementById('pathbox').value, 1)
+                    goToFolder(document.getElementById('pathbox').value, 1);
                 }
                 else {}
             }
             function goToFolder(pathString, navflag) { //use an onclick here
-                if (fs.statSync(pathString).isFile()) {
-                console.log(pathString); //log the pathString here
-                } else {}
-                ipcRenderer.send('getme', pathString, navflag);
-            }
+                var stats = fs.stat(pathString, '', (err, stats) => {
+                if (err) {
+                    switch (err) {
+                        case 'EPERM': {
+                            console.log('You do not have the permissions to access '+pathString)
+                        }
+                        default: {
+                            console.log('Whoops!')
+                        }
+                    }
+                } else {
+                    if (stats.isFile()) {
+                        console.log(pathString); //log the pathString here
+                    } else {}
+                        ipcRenderer.send('getme', pathString, navflag);
+                }
+            })
+        }
         </script>
     </body>
 </html>
