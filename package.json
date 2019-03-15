@@ -17,9 +17,6 @@
     "url": "https://github.com/TotalChris/ProjectVoyager/issues"
   },
   "homepage": "https://github.com/TotalChris/ProjectVoyager#readme",
-  "devDependencies": {
-    "nodemon": "^1.18.10"
-  },
   "dependencies": {
     "electron": "^4.0.7",
     "windows-registry": "^0.1.3"
