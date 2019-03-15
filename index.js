@@ -5,7 +5,7 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron')
 
 //functions
 function createWindow() {
-let win = new BrowserWindow({ width: 1200, height: 1000, frame: false, webPreferences: { experimentalFeatures: true} })
+let win = new BrowserWindow({ icon: "./bin/img/app.png", width: 1200, height: 1000, frame: false, webPreferences: { experimentalFeatures: true} })
     win.loadFile('voyager.html')
     win.on('closed', () => {
         win = null;
