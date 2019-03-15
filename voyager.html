@@ -34,13 +34,9 @@
             const { ipcRenderer } = require('electron');
             const fs = require('fs');
             ipcRenderer.on('igot', (evt, args) => {
-                if (args.contentType === 'text/html'){
                     document.getElementById('filelist').innerHTML = args.pagedata;
                     pathString = args.pathString;
                     document.getElementById('pathbox').value = pathString;
-                } else {
-                    //set rules for content viewing
-                }
             });
             ipcRenderer.on('maxd', () => {
                 document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/res.png"/>';

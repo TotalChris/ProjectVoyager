@@ -25,7 +25,6 @@ function sift(pathString, navflag) {
             hindex++
             hist[hindex] = pathString;
         }
-        console.log({hist, hindex, navflag});
         return { 'pathString': pathString, 'pagedata': createDirContent(pathString), 'contentType': 'text/html' };
     }
 }
