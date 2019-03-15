@@ -52,9 +52,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)">${element.name}${path.sep}</td></tr>`)
+                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
                 } else {
-                filesout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)">${element.name}</td></tr>`)
+                filesout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
                 }
             })
         };

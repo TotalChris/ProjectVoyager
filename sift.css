@@ -62,7 +62,7 @@ body {
   #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn {
     float: right;
   }
-  #bck_btn, #fwd_btn, #up_btn{
+  #bck_btn, #fwd_btn, #up_btn, #mn_btn{
     float: left;
   }
   .topbtn{
@@ -76,6 +76,10 @@ body {
   .topbtn img{
     padding: 8.5px;
     filter: invert(var(--icon-trans));
+  }
+  td img{
+    filter: invert(var(--icon-trans));
+    padding-right: 8.5px;
   }
   /* width */
 ::-webkit-scrollbar {

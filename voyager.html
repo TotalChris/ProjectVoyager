@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goToFolder(pathString)">
+    <body onload="goToFolder(pathString)" class="dark">
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
@@ -16,6 +16,7 @@
         </div>
     </div>
     <div id="pathboxcontainer">
+    <div id="mn_btn" class="topbtn" onclick=""><img src="./bin/img/mn.png"/></div>
     <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up', pathString)"><img src="./bin/img/up.png"/></div>
     <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
     <div id="hm_btn" class="topbtn" onclick="goToFolder(os.homedir(), 1)"><img src="./bin/img/hm.png"/></div>
