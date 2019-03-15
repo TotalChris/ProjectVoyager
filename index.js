@@ -5,7 +5,7 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron')
 
 //functions
 function createWindow() {
-let win = new BrowserWindow({ icon: "./bin/img/app.png", width: 1200, height: 1000, frame: false, webPreferences: { experimentalFeatures: true} })
+let win = new BrowserWindow({ icon: "./bin/img/app.png", width: 1200, height: 900, frame: false, webPreferences: { experimentalFeatures: true} })
     win.loadFile('voyager.html')
     win.on('closed', () => {
         win = null;
@@ -47,7 +47,7 @@ app.on('ready', createWindow)
 ipcMain.on('getme', (evt, pathString, navflag) => {
     evt.sender.send('igot', siftlib.sift(pathString, navflag))
 })
-
+//siftlib.sift(pathString, navflag)
 ipcMain.on('up', (evt, pathString) => {
     evt.sender.send('igot', siftlib.goUp(pathString));
 })

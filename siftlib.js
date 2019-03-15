@@ -11,13 +11,7 @@ function sift(pathString, navflag) {
     //if set to 0, history will be ignored. Usuall this is used for library functions that modify the history directly.
     pathString = path.normalize(pathString)
     if (fs.statSync(pathString).isFile()) {
-        fs.readFile(pathString, (err, pagedata) => {
-            if (err) {
-                throw err;
-            } else {
-                    electron.shell.openItem(pathString)
-            }
-        });
+        return { 'pathString': pathString, 'pagedata': '', 'type': 'file' };
     } else {
         if ((pathString.lastIndexOf(path.sep)+1) !== pathString.length){pathString += path.sep}; //correct path name if need-be
         if (navflag == 1){
@@ -25,21 +19,21 @@ function sift(pathString, navflag) {
             hindex++
             hist[hindex] = pathString;
         }
-        return { 'pathString': pathString, 'pagedata': createDirContent(pathString), 'contentType': 'text/html' };
+        return { 'pathString': pathString, 'pagedata': createDirContent(pathString), 'type': 'folder' };
     }
 }
 function goBack(){
     if (hindex > 0){
         hindex--
-        return sift(hist[hindex], 0);
     }
+        return sift(hist[hindex], 0);
 }
 
 function goForth(){
     if((hindex + 1) < hist.length){
         hindex++
-        return sift(hist[hindex], 0);
     }
+        return sift(hist[hindex], 0);
 }
 function goUp(pathString){
    return sift(path.parse(pathString).dir, 1)
@@ -51,9 +45,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
+                foldersout += (`<tr><td onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
                 } else {
-                filesout += (`<tr><td onclick="goToFolder(pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
+                filesout += (`<tr><td onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
                 }
             })
         };

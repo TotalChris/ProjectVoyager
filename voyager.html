@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goToFolder(pathString)" class="dark">
+    <body onload="goTo(pathString, 0)" class="dark">
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
@@ -19,9 +19,9 @@
     <div id="mn_btn" class="topbtn" onclick=""><img src="./bin/img/mn.png"/></div>
     <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up', pathString)"><img src="./bin/img/up.png"/></div>
     <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
-    <div id="hm_btn" class="topbtn" onclick="goToFolder(os.homedir(), 1)"><img src="./bin/img/hm.png"/></div>
-    <div id="rf_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value, 0)"><img src="./bin/img/rf.png"/></div>
-    <div id="go_btn" class="topbtn" onclick="goToFolder(document.getElementById('pathbox').value, 1)"><img src="./bin/img/fwd.png"/></div>
+    <div id="hm_btn" class="topbtn" onclick="goTo(os.homedir(), 1)"><img src="./bin/img/hm.png"/></div>
+    <div id="rf_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 0)"><img src="./bin/img/rf.png"/></div>
+    <div id="go_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 1)"><img src="./bin/img/fwd.png"/></div>
     </div>
         <div id="content-box-holder">
             <table id="filelist">
@@ -31,49 +31,54 @@
         <script>
             const os = require('os');
             var pathString = os.homedir();
-            const { ipcRenderer } = require('electron');
+            const { ipcRenderer, shell } = require('electron');
+            const siftlib = require('./siftlib');
             const fs = require('fs');
             ipcRenderer.on('igot', (evt, args) => {
+                if (args.type === 'folder'){
                     document.getElementById('filelist').innerHTML = args.pagedata;
                     pathString = args.pathString;
-                    document.getElementById('pathbox').value = pathString;
+                    document.getElementById('pathbox').value = args.pathString;
+                } else {
+                    shell.openItem(args.pathString);
+                }
             });
             ipcRenderer.on('maxd', () => {
                 document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/res.png"/>';
-                console.log('maximized on renderer');
+                ('d on renderer');
             });
             ipcRenderer.on('resd', () => {
                 document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/max.png"/>';
-                console.log('resized on renderer');
+                ('resized on renderer');
             });
             ipcRenderer.on('goget', (evt, pathString) => {
                 ipcRenderer.send('getme', pathString, 0)
             });
             function textFieldKeyHandler(event) {
                 if (event.key === 'Enter') {
-                    goToFolder(document.getElementById('pathbox').value, 1);
+                    goTo(document.getElementById('pathbox').value, 1);
                 }
                 else {}
             }
-            function goToFolder(pathString, navflag) { //use an onclick here
-                var stats = fs.stat(pathString, '', (err, stats) => {
+            function goTo(pathString, navflag) { //will now be used as a wrapper for ipcRenderer.send('getme')
+            //error handle locally
+            var stats = fs.stat(pathString, '', (err, stats) => {
                 if (err) {
+                    //what's the issue?
                     switch (err) {
                         case 'EPERM': {
                             console.log('You do not have the permissions to access '+pathString)
                         }
                         default: {
-                            console.log('Whoops!')
+                            console.log('Whoops! I got something wrong, here. Try that again.')
                         }
                     }
                 } else {
-                    if (stats.isFile()) {
-                        console.log(pathString); //log the pathString here
-                    } else {}
-                        ipcRenderer.send('getme', pathString, navflag);
+                    //if everything is okay...
+                    ipcRenderer.send('getme', pathString, navflag);
                 }
             })
-        }
+        };
         </script>
     </body>
 </html>
