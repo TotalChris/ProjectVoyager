@@ -1,11 +1,10 @@
-//modules
-const fs = require('fs');
+//modules const fs = require('fs');
 const siftlib = require('./siftlib');
 const { app, BrowserWindow, ipcMain, shell } = require('electron')
-
 //functions
 function createWindow() {
-let win = new BrowserWindow({ icon: "./bin/img/app.png", width: 1200, height: 900, frame: false, webPreferences: { experimentalFeatures: true} })
+let win = new BrowserWindow({ icon: "./bin/img/app.png", width: 1200, height: 900, frame: false, transparent: true, vibrancy: 'ultra-dark', webPreferences: { experimentalFeatures: true } })
+var maxflag = 0;
     win.loadFile('voyager.html')
     win.on('closed', () => {
         win = null;
@@ -19,10 +18,12 @@ let win = new BrowserWindow({ icon: "./bin/img/app.png", width: 1200, height: 90
         }
     })
     ipcMain.on('rsz', (evt) => {
-        if (win.isMaximized() === false) {
+        if (maxflag === 0) {
+            maxflag = 1;
             win.maximize();
             evt.sender.send('maxd');
         } else {
+            maxflag = 0;
             win.restore();
             evt.sender.send('resd');
         }

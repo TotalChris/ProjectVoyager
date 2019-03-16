@@ -4,12 +4,12 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goTo(pathString, 0)" class="dark">
+    <body onload="goTo(pathString, 0)" class="light vibrant">
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
             <div id="fwd_btn" class="topbtn" onclick="ipcRenderer.send('fwd')"><img src="./bin/img/fwd.png"/></div>
-            <div id="titleplace">Voyager File Manager (Beta)</div>
+            <div id="titleplace"><p>Voyager File Manager (Beta)</p></div>
             <div id="min_btn" class="topbtn" onclick="ipcRenderer.send('min')"><img src="./bin/img/min.png"/></div>
             <div id="rsz_btn" class="topbtn" onclick="ipcRenderer.send('rsz')"><img src="./bin/img/max.png"/></div>
             <div id="cls_btn" class="topbtn" onclick="ipcRenderer.send('cls')"><img src="./bin/img/cls.png"/></div>

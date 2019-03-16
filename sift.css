@@ -1,46 +1,56 @@
+.vibrant{
+  --transparency: .5;
+}
+.matte{
+  --transparency: 1;
+}
 .light{
-  --invert: #000000;
-  --primary: #FFFFFF;
-  --secondary: #f2f2f2;
-  --trietary: #ddd;
+  --invert: rgb(0, 0, 0);
+  --primary: rgba(255, 255, 255, var(--transparency));
+  --secondary: rgba(242, 242, 242, var(--transparency));
+  --trietary: rgba(208, 208, 208, var(--transparency));
   --icon-trans: 0%;
 }
 .dark{
-  --invert: #FFFFFF;
-  --primary: #000000;
-  --secondary: #0d0d0d;
-  --trietary: #222;
+  --invert: rgba(255, 255, 255);;
+  --primary: rgba(0, 0, 0, var(--transparency));
+  --secondary: rgba(13, 13, 13, var(--transparency));
+  --trietary: rgba(32, 32, 32, var(--transparency));;
   --icon-trans: 100%;
-}
-#filelist, #pathbox, #gobutton, #titleplace {
-    font-family: 'Roboto', sans-serif;
-    border-collapse: collapse;
 }
 body {
     margin: 0px;
     overflow: hidden;
     background-color: var(--primary);
     color: var(--invert);
+    font-family: 'Roboto', sans-serif;
 }
 #titlebar{
   display: flex;
-    width: 100%;
-    height: 35px;
-    -webkit-app-region: drag;
-    background-color: var(--primary);
+  align-content: center;
+  width: 100%;
+  height: 35px;
+  -webkit-app-region: drag;
 }
 #content-box-holder{
-    height: 100%;
-    overflow: scroll;
+  height: 100%;
+  overflow: scroll;
 }
 #titleplace{
   width: -webkit-fill-available;
+  height: -webkit-fill-available;
   align-self: center;
   margin: auto;
+  align-content: center;
   text-align: center;
+  background-color: var(--primary);
+}
+#titleplace p{
+  margin: 8px;
 }
   #filelist {
     width: 100%;
+    border-collapse: collapse;
   }
 
   #filelist td, #pathbox{
@@ -54,11 +64,16 @@ body {
     font-size: 14px;
     border: 0px;
     width: -webkit-fill-available;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--primary);
     color: var(--invert);
   }
-  #filelist tr:nth-child(odd){background-color: var(--secondary);}
-  #filelist tr:hover {background-color: var(--trietary);}
+  #filelist tr:nth-child(odd){
+    background-color: var(--secondary);
+  }
+  #filelist tr:hover {
+    background-color: var(--trietary);
+  }
   #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn {
     float: right;
   }
@@ -69,6 +84,7 @@ body {
     height: 35px;
     width: 35px;
     -webkit-app-region: no-drag;
+    background-color: var(--primary);
   }
   .topbtn:hover, #pathbox:hover {
     background-color: var(--trietary);
