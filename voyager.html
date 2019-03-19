@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="sift.css"/>
     </head>
     <body onload="goTo(pathString, 0)" class="light vibrant">
+    <div id="context"></div>
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
@@ -34,6 +35,13 @@
             const { ipcRenderer, shell } = require('electron');
             const siftlib = require('./siftlib');
             const fs = require('fs');
+            document.body.addEventListener("contextmenu", (evt) => {
+                cmenu = document.getElementById('context');
+                cmenu.style.top = evt.clientY;
+                cmenu.style.left = evt.clientX;
+                cmenu.innerHTML = siftlib.popCMenu(evt);
+                cmenu.classList.add('show');
+            })
             ipcRenderer.on('igot', (evt, args) => {
                 if (args.type === 'folder'){
                     document.getElementById('filelist').innerHTML = args.pagedata;

@@ -97,6 +97,20 @@ body {
     filter: invert(var(--icon-trans));
     padding-right: 8.5px;
   }
+  #context.show{
+    visibility: visible;
+    position: absolute;
+    background-color: #FFFFFF;
+    height: 35px;
+    width: 100px;
+  }
+  #context{
+    visibility: hidden;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 0;
+  }
   /* width */
 ::-webkit-scrollbar {
   width: 14px;

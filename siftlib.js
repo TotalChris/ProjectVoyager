@@ -53,6 +53,12 @@ function createDirContent(directoryName) {
         };
         return foldersout + filesout
     }
+function popcMenu(evt){
+    //use js to get cordinates and element clicked
+    //extract the file location from this info
+    //populate a context menu based on that path
+    //return the html
+}
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
@@ -79,4 +85,4 @@ function createDirContent(directoryName) {
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, goUp }
+module.exports = { createDirContent, sift, goBack, goForth, goUp, popCMenu }
