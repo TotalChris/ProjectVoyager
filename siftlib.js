@@ -53,7 +53,7 @@ function createDirContent(directoryName) {
         };
         return foldersout + filesout
     }
-function popcMenu(evt){
+function popCMenu(evt){
     //use js to get cordinates and element clicked
     //extract the file location from this info
     //populate a context menu based on that path
