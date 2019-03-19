@@ -45,17 +45,19 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
+                foldersout += (`<tr><td elementname="${element.name}" onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
                 } else {
-                filesout += (`<tr><td onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
+                filesout += (`<tr><td elementname="${element.name}" onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
                 }
             })
         };
         return foldersout + filesout
     }
 function popCMenu(evt){
+    
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
-    //use js to get cordinates and element clicked
+    console.log(evt.target.attributes.elementname.value)
+    
     //extract the file location from this info
     //populate a context menu based on that path
     //return the html
