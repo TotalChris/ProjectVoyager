@@ -54,6 +54,7 @@ function createDirContent(directoryName) {
         return foldersout + filesout
     }
 function popCMenu(evt){
+    //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     //use js to get cordinates and element clicked
     //extract the file location from this info
     //populate a context menu based on that path
