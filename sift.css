@@ -5,6 +5,8 @@
   --transparency: 1;
 }
 .light{
+  --constant-invert: 0;
+  --constant-primary: 255;
   --invert: rgb(0, 0, 0);
   --primary: rgba(255, 255, 255, var(--transparency));
   --secondary: rgba(242, 242, 242, var(--transparency));
@@ -12,6 +14,8 @@
   --icon-trans: 0%;
 }
 .dark{
+  --constant-invert: 255;
+  --constant-primary: 0;
   --invert: rgba(255, 255, 255);;
   --primary: rgba(0, 0, 0, var(--transparency));
   --secondary: rgba(13, 13, 13, var(--transparency));
@@ -103,6 +107,7 @@ body {
     background-color: #FFFFFF;
     height: 35px;
     width: 100px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   }
   #context{
     visibility: hidden;
@@ -110,6 +115,7 @@ body {
     top: 0;
     height: 0;
     width: 0;
+    box-shadow: none;
   }
   /* width */
 ::-webkit-scrollbar {

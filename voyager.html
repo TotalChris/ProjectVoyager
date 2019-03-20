@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goTo(pathString, 0)" class="light matte">
+    <body onload="goTo(pathString, 0)" class="dark matte">
     <div id="context"></div>
     <div id="titlewrapper">
         <div id="titlebar">
@@ -37,8 +37,8 @@
             const fs = require('fs');
             document.body.addEventListener("contextmenu", (evt) => {
                 cmenu = document.getElementById('context');
-                cmenu.style.top = evt.clientY;
-                cmenu.style.left = evt.clientX;
+                cmenu.style.top = evt.clientY + 1;
+                cmenu.style.left = evt.clientX + 1;
                 cmenu.innerHTML = siftlib.popCMenu(evt, pathString);
                 cmenu.classList.add('show');
             })
