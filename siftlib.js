@@ -45,9 +45,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td elementname="${element.name}" onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
+                foldersout += (`<tr><td elementname="${element.name}" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
                 } else {
-                filesout += (`<tr><td elementname="${element.name}" onclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
+                filesout += (`<tr><td elementname="${element.name}" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
                 }
             })
         };
@@ -59,9 +59,7 @@ function popCMenu(evt, pathString){
     relpath = evt.target.attributes.elementname.value
     var fullPath = pathString + relpath
     return `
-    <table class="itemlist">
         <tr><td onclick="ipcRenderer.send('opn', '${fullPath}')"><img src="./bin/img/opn.png">Open</td></tr>
-    </table>
     `
     
     
