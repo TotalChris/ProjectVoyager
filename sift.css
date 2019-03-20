@@ -48,12 +48,12 @@ body {
 #titleplace p{
   margin: 8px;
 }
-  #filelist {
+  .itemlist {
     width: 100%;
     border-collapse: collapse;
   }
 
-  #filelist td, #pathbox{
+  .itemlist td, #pathbox{
       padding: 8px;
   }
   #pathboxcontainer{
@@ -68,10 +68,10 @@ body {
     background-color: var(--primary);
     color: var(--invert);
   }
-  #filelist tr:nth-child(odd){
+  .itemlist tr:nth-child(odd){
     background-color: var(--secondary);
   }
-  #filelist tr:hover {
+  .itemlist tr:hover {
     background-color: var(--trietary);
   }
   #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn {

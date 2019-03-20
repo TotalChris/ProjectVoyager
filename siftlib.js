@@ -53,10 +53,21 @@ function createDirContent(directoryName) {
         };
         return foldersout + filesout
     }
-function popCMenu(evt){
+function popCMenu(evt, pathString){
     
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
-    console.log(evt.target.attributes.elementname.value)
+    relpath = evt.target.attributes.elementname.value
+    var fullPath = pathString + relpath
+    return `
+    <table class="itemlist">
+        <tr><td onclick="ipcRenderer.send('opn', '${fullPath}')"><img src="./bin/img/opn.png">Open</td></tr>
+    </table>
+    `
+    
+    
+    
+
+    //isfile and isdir checks
     
     //extract the file location from this info
     //populate a context menu based on that path

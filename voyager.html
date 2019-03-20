@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goTo(pathString, 0)" class="dark matte">
+    <body onload="goTo(pathString, 0)" class="light matte">
     <div id="context"></div>
     <div id="titlewrapper">
         <div id="titlebar">
@@ -25,7 +25,7 @@
     <div id="go_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 1)"><img src="./bin/img/fwd.png"/></div>
     </div>
         <div id="content-box-holder">
-            <table id="filelist">
+            <table class="itemlist" id="filelist">
 
             </table>
         </div>
@@ -39,7 +39,7 @@
                 cmenu = document.getElementById('context');
                 cmenu.style.top = evt.clientY;
                 cmenu.style.left = evt.clientX;
-                cmenu.innerHTML = siftlib.popCMenu(evt);
+                cmenu.innerHTML = siftlib.popCMenu(evt, pathString);
                 cmenu.classList.add('show');
             })
             ipcRenderer.on('igot', (evt, args) => {

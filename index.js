@@ -52,3 +52,6 @@ ipcMain.on('getme', (evt, pathString, navflag) => {
 ipcMain.on('up', (evt, pathString) => {
     evt.sender.send('igot', siftlib.goUp(pathString));
 })
+ipcMain.on('opn', (evt, pathString) => {
+    evt.sender.send('igot', { 'pathString': pathString, 'pagedata': '', 'type': 'file' })
+})
