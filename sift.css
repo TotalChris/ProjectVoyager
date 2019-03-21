@@ -75,8 +75,11 @@ body {
   .itemlist tr:nth-child(odd){
     background-color: var(--secondary);
   }
-  .itemlist.hover-enabled tr:hover {
+  .itemlist.hover-enabled tr:hover, .select{
     background-color: var(--trietary);
+  }
+  .select{
+    font-weight: bold;
   }
   #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn {
     float: right;

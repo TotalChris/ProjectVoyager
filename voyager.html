@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goTo(pathString, 0)" class="dark matte">
+    <body onload="goTo(home, 0)" class="dark matte">
     <div id="context"><table id="context-table" class="itemlist hover-enabled"></table></div>
     <div id="titlewrapper">
         <div id="titlebar">
@@ -20,7 +20,7 @@
     <div id="mn_btn" class="topbtn" onclick=""><img src="./bin/img/mn.png"/></div>
     <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up', pathString)"><img src="./bin/img/up.png"/></div>
     <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
-    <div id="hm_btn" class="topbtn" onclick="goTo(os.homedir(), 1)"><img src="./bin/img/hm.png"/></div>
+    <div id="hm_btn" class="topbtn" onclick="goTo(home, 1)"><img src="./bin/img/hm.png"/></div>
     <div id="rf_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 0)"><img src="./bin/img/rf.png"/></div>
     <div id="go_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 1)"><img src="./bin/img/fwd.png"/></div>
     </div>
@@ -31,10 +31,12 @@
         </div>
         <script>
             const os = require('os');
-            var pathString = os.homedir();
+            const path = require('path');
             const { ipcRenderer, shell } = require('electron');
             const siftlib = require('./siftlib');
             const fs = require('fs');
+            const home = os.homedir().replace(/\\/g, '/');
+            var pathString = home;
             cmenu = document.getElementById('context');
             filelist = document.getElementById('filelist');
             document.body.addEventListener("contextmenu", (evt) => {
@@ -43,6 +45,7 @@
                 cmenu.style.left = evt.clientX + 1;
                 document.getElementById('context-table').innerHTML = siftlib.popCMenu(evt, pathString);
                 filelist.classList.remove('hover-enabled');
+                selectItem(evt.target);
                 cmenu.classList.add('show');
             })
             window.addEventListener("click", (evt) => {
@@ -52,13 +55,18 @@
                     filelist.classList.add('hover-enabled');
                 }
             });
-
+            function selectItem(item){
+                selected = document.getElementsByClassName('select');
+                Object.entries(selected).forEach((entry) => {entry[1].classList.remove('select')});
+                item.classList.add('select')
+            }
             ipcRenderer.on('igot', (evt, args) => {
                 if (args.type === 'folder'){
                     document.getElementById('filelist').innerHTML = args.pagedata;
                     pathString = args.pathString;
                     document.getElementById('pathbox').value = args.pathString;
                 } else {
+                    console.log(args.pathString);
                     shell.openItem(args.pathString);
                 }
             });

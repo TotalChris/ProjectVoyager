@@ -4,16 +4,15 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 var hindex = 0
-var hist = [os.homedir()];
+var hist = [os.homedir().replace(/\\/g, '/')];
 
 function sift(pathString, navflag) {
     //navflag is set to 1 if moving using the filelist. This will log history and overwrite the previous entries
     //if set to 0, history will be ignored. Usuall this is used for library functions that modify the history directly.
-    pathString = path.normalize(pathString)
     if (fs.statSync(pathString).isFile()) {
         return { 'pathString': pathString, 'pagedata': '', 'type': 'file' };
     } else {
-        if ((pathString.lastIndexOf(path.sep)+1) !== pathString.length){pathString += path.sep}; //correct path name if need-be
+        if ((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'}; //correct path name if need-be
         if (navflag == 1){
             if (((hindex + 1) !== hist.length) && (hist[hindex] !== pathString)){hist.length = hindex + 1}
             hindex++
@@ -28,7 +27,6 @@ function goBack(){
     }
         return sift(hist[hindex], 0);
 }
-
 function goForth(){
     if((hindex + 1) < hist.length){
         hindex++
@@ -45,9 +43,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td elementname="${element.name}" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}${path.sep}</td></tr>`)
+                foldersout += (`<tr><td elementname="${element.name}" onclick="selectItem(this)" onclick="" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}/</td></tr>`)
                 } else {
-                filesout += (`<tr><td elementname="${element.name}" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
+                filesout += (`<tr><td elementname="${element.name}" onclick="selectItem(this)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
                 }
             })
         };
@@ -57,7 +55,10 @@ function popCMenu(evt, pathString){
     
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     relpath = evt.target.attributes.elementname.value
+    console.log(pathString)
+    console.log(relpath)
     var fullPath = pathString + relpath
+    console.log(fullPath)
     return `
         <tr><td onclick="ipcRenderer.send('opn', '${fullPath}')"><img src="./bin/img/opn.png">Open</td></tr>
     `
