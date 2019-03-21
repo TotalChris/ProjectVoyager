@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="sift.css"/>
     </head>
-    <body onload="goTo(home, 0)" class="dark matte">
+    <body onload="goTo(home, 0)" class="dark vibrant">
     <div id="context"><table id="context-table" class="itemlist hover-enabled"></table></div>
     <div id="titlewrapper">
         <div id="titlebar">
@@ -55,9 +55,12 @@
                     filelist.classList.add('hover-enabled');
                 }
             });
-            function selectItem(item){
-                selected = document.getElementsByClassName('select');
-                Object.entries(selected).forEach((entry) => {entry[1].classList.remove('select')});
+            function selectItem(item, slflag){
+                console.log(slflag)
+                if (slflag === 1){
+                    selected = document.getElementsByClassName('select');
+                    Object.entries(selected).forEach((entry) => {entry[1].classList.remove('select')});
+                }
                 item.classList.add('select')
             }
             ipcRenderer.on('igot', (evt, args) => {

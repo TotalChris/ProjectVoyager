@@ -57,7 +57,7 @@ body {
     border-collapse: collapse;
   }
 
-  .itemlist td, #pathbox{
+  #pathbox{
       padding: 8px;
   }
   #pathboxcontainer{
@@ -87,6 +87,21 @@ body {
   #bck_btn, #fwd_btn, #up_btn, #mn_btn{
     float: left;
   }
+  .itemNameText{
+    width: -webkit-fill-available;
+    padding: 8px;
+    padding-left: 0px;
+    overflow: visible;
+  }
+  .item{
+    padding: 0px;
+    display: flex;
+    overflow: visible;
+  }
+  .item img{
+    filter: invert(var(--icon-trans));
+    padding: 8px;
+  }
   .topbtn{
     height: 35px;
     width: 35px;
@@ -99,10 +114,6 @@ body {
   .topbtn img{
     padding: 8.5px;
     filter: invert(var(--icon-trans));
-  }
-  td img{
-    filter: invert(var(--icon-trans));
-    padding-right: 8.5px;
   }
   #context.show{
     visibility: visible;

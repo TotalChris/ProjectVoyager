@@ -43,9 +43,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td elementname="${element.name}" onclick="selectItem(this)" onclick="" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fld.png"/>${element.name}/</td></tr>`)
+                foldersout += (`<tr><td elementname="${element.name}" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)" class="item"><img src="./bin/img/fld.png"/ onclick="selectItem(this.parentElement, 0)"><div class="itemNameText" onclick="selectItem(this.parentElement, 1)">${element.name}/</div></td></tr>`)
                 } else {
-                filesout += (`<tr><td elementname="${element.name}" onclick="selectItem(this)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)"><img src="./bin/img/fil.png"/>${element.name}</td></tr>`)
+                filesout += (`<tr><td elementname="${element.name}" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)" class="item"><img src="./bin/img/fil.png"/ onclick="selectItem(this.parentElement, 0)"><div class="itemNameText" onclick="selectItem(this.parentElement, 1)">${element.name}</div></td></tr>`)
                 }
             })
         };
