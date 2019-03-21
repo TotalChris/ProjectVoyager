@@ -37,8 +37,8 @@ body {
   -webkit-app-region: drag;
 }
 #content-box-holder{
-  height: 100%;
-  overflow: scroll;
+  height: Calc(100% - 70px);
+  overflow-y: scroll;
 }
 #titleplace{
   width: -webkit-fill-available;
@@ -129,21 +129,21 @@ body {
     box-shadow: none;
   }
   /* width */
-::-webkit-scrollbar {
-  width: 14px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: var(--primary); 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--secondary); 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: var(--trietary); 
-}
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--primary); 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--secondary); 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--trietary); 
+  }
