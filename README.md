@@ -4,7 +4,7 @@ A new and universal file manager built for the way you work, on any platform. (W
 I am in the process of wrapping up basic file movement functions. (cut, copy, paste) This should be done soon. therefore, Voyager is not a fully-featured or official file "manager" as of yet. I work and go to high school right now so this is basically my personal project. I hope you can understand 😁
 
 * Feedback: siftdevelopment@gmail.com
-* Telegram: [t.me/ProjectVoyager](https://t.me/ProjectVoyager])
+* Telegram: [t.me/ProjectVoyager](https://t.me/ProjectVoyager)
 * Donate: [paypal.me/siftware](https://paypal.me/siftware)
 (Please donate if you can, it really helps.)
 
