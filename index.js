@@ -3,7 +3,7 @@ const siftlib = require('./siftlib');
 const { app, BrowserWindow, ipcMain, shell } = require('electron')
 //functions
 function createWindow() {
-let win = new BrowserWindow({ icon: "./bin/img/app.png", width: 1200, height: 900, frame: false, transparent: true, vibrancy: 'ultra-dark', webPreferences: { experimentalFeatures: true } })
+let win = new BrowserWindow({ nodeIntegration: true, icon: "./bin/img/app.png", width: 1200, height: 900, frame: false, transparent: true, vibrancy: 'ultra-dark', webPreferences: { experimentalFeatures: true } })
 var maxflag = 0;
     win.loadFile('voyager.html')
     win.on('closed', () => {

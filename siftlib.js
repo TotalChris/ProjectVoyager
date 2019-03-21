@@ -55,10 +55,7 @@ function popCMenu(evt, pathString){
     
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     relpath = evt.target.attributes.elementname.value
-    console.log(pathString)
-    console.log(relpath)
     var fullPath = pathString + relpath
-    console.log(fullPath)
     return `
         <tr><td onclick="ipcRenderer.send('opn', '${fullPath}')"><img src="./bin/img/opn.png">Open</td></tr>
     `

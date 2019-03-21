@@ -56,10 +56,6 @@ body {
     width: 100%;
     border-collapse: collapse;
   }
-
-  #pathbox{
-      padding: 8px;
-  }
   #pathboxcontainer{
       width: 100%;
       display: flex;
@@ -71,6 +67,8 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--primary);
     color: var(--invert);
+    padding: 8px;
+    outline: none;
   }
   .itemlist tr:nth-child(odd){
     background-color: var(--secondary);
@@ -91,12 +89,11 @@ body {
     width: -webkit-fill-available;
     padding: 8px;
     padding-left: 0px;
-    overflow: visible;
+    white-space: nowrap;
   }
   .item{
     padding: 0px;
     display: flex;
-    overflow: visible;
   }
   .item img{
     filter: invert(var(--icon-trans));
