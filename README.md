@@ -13,6 +13,7 @@ Develop the world's most powerful and easiest-to-use file manager in a cross-pla
 ***
 **Development Screenshots**
 
+![Dark Mode](https://github.com/TotalChris/ProjectVoyager/bin/scr/dark.png "Voyager in a beautiful dark mode")
 
 ***
 **Building From Source**
