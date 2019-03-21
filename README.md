@@ -1,6 +1,8 @@
 # Project Voyager
 A new and universal file manager built for the way you work.
 
+I am in the process of wrapping up basic file movement functions. (cut, copy, paste) This should be done soon. therefore, Voyager is not a fully-featured or official file "manager" as of yet. I work and go to high school right now so this is basically my personal project. I hope you can understand 😁
+
 * Feedback: siftdevelopment@gmail.com
 * Telegram: [t.me/ProjectVoyager](t.me/ProjectVoyager])
 * Donate: [paypal.me/siftware](paypal.me/siftware)
@@ -13,7 +15,9 @@ Develop the world's most powerful and easiest-to-use file manager in a cross-pla
 ***
 **Development Screenshots**
 
-![Dark Mode](https://github.com/TotalChris/ProjectVoyager/bin/scr/dark.png "Voyager in a beautiful dark mode")
+![Dark Mode](https://github.com/TotalChris/ProjectVoyager/blob/master/bin/scr/dark.png?raw=true "Voyager in a beautiful dark mode")
+
+![Light Mode](https://github.com/TotalChris/ProjectVoyager/blob/master/bin/scr/light.png?raw=true "Voyager in an eye-searing (but elegant) light mode")
 
 ***
 **Building From Source**
@@ -45,17 +49,10 @@ npm start
 
 You can exit the window at any time by normal means, including from the command line itself (Ctrl + C), should the window freeze or the controls break.
 
-The best way to navigate files as of right now is to use the text bar to type in a path. You can also use the folder navigation system, but this functionality is currently under construction
-
 ***
 **Known Issues**
 
-* If you attempt to access a folder that your host does not allow access to, voyager will instantly throw an error.
-
-* When starting, Voyager looks for the root ('/') directory by default. Trying to access files using this prefix on Windows (And possibly OSx, untested) will throw an error. A platform-specific compatibility patch is being worked on.
-
-* ~~If Voyager cannot access a file, or throws an error on opening something, the value of the file or folder is still added to the address bar. This will make any subsequent navigation fail because the path will not exist. Detection methods are being tested.~~ Issue Fixed, will update readme soon.
-
+* If you attempt to access a folder that your host does not allow access to, Voyager will instantly throw an error.
 ***
 **Final Words**
 
