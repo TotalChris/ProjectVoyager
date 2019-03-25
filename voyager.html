@@ -5,7 +5,11 @@
         <link rel="stylesheet" href="sift.css"/>
     </head>
     <body onload="goTo(home, 0)" class="dark matte">
-    <div id="context"><table id="context-table" class="itemlist hover-enabled"></table></div>
+    <div id="context">
+        <table id="context-table" class="itemlist hover-enabled">
+
+        </table>
+    </div>
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
@@ -37,17 +41,8 @@
             const fs = require('fs');
             const home = os.homedir().replace(/\\/g, '/');
             var pathString = home;
-            cmenu = document.getElementById('context');
             filelist = document.getElementById('filelist');
-            document.body.addEventListener("contextmenu", (evt) => {
-                evt.preventDefault();
-                cmenu.style.top = evt.clientY + 1;
-                cmenu.style.left = evt.clientX + 1;
-                document.getElementById('context-table').innerHTML = siftlib.popCMenu(evt, pathString);
-                filelist.classList.remove('hover-enabled');
-                selectItem(evt.target);
-                cmenu.classList.add('show');
-            })
+            var cmenu = document.getElementById('context');
             window.addEventListener("click", (evt) => {
                 evt.preventDefault();
                 if(cmenu.classList.contains('show')){
@@ -55,12 +50,32 @@
                     filelist.classList.add('hover-enabled');
                 }
             });
+            document.addEventListener('contextmenu', (evt) => {
+                cmenu.style.top = evt.clientY;
+                cmenu.style.left = evt.clientX;
+                filelist.classList.remove('hover-enabled');
+                cmenu.classList.add('show');
+            })
             function selectItem(item, slflag){
-                if (slflag === 1){
-                    selected = document.getElementsByClassName('select');
-                    Object.entries(selected).forEach((entry) => {entry[1].classList.remove('select')});
+                selected = document.getElementsByClassName('select');
+                if(item.classList.contains('select')){
+                    item.classList.remove('select');
+                    item.children[0].src='./bin/img/chk0.png';
+                } else {
+                    if (slflag === 1){
+                        Object.entries(selected).forEach((entry) => {
+                        entry[1].classList.remove('select');
+                            if(entry[1].attributes.type.value === "folder"){
+                                    entry[1].children[0].src='./bin/img/fld.png';
+                            }
+                            if(entry[1].attributes.type.value === "file"){
+                                    entry[1].children[0].src='./bin/img/fil.png';
+                            }
+                        });
+                    }
+                    item.children[0].src='./bin/img/chk1.png';
+                    item.classList.add('select');
                 }
-                item.classList.add('select')
             }
             ipcRenderer.on('igot', (evt, args) => {
                 if (args.type === 'folder'){
