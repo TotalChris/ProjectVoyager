@@ -45,7 +45,7 @@ function createDirContent(directoryName) {
                 if (element.isDirectory()) {
                 foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fld.png'}"><img src="./bin/img/fld.png"/ onclick="selectItem(this.parentElement, 0)"><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}/</div></td></tr>`)
                 } else {
-                filesout += (`<tr><td type="" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fil.png'}"><img src="./bin/img/fil.png"/ onclick="selectItem(this.parentElement, 0)"><div class="itemNameText" onclick="selectItem(this.parentElement, 1)"ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}</div></td></tr>`)
+                filesout += (`<tr><td type="file" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fil.png'}"><img src="./bin/img/fil.png"/ onclick="selectItem(this.parentElement, 0)"><div class="itemNameText" onclick="selectItem(this.parentElement, 1)"ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}</div></td></tr>`)
                 }
             })
         };

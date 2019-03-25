@@ -58,7 +58,7 @@
             })
             function selectItem(item, slflag){
                 selected = document.getElementsByClassName('select');
-                if(item.classList.contains('select')){
+                if(item.classList.contains('select') && slflag === 0){
                     item.classList.remove('select');
                     item.children[0].src='./bin/img/chk0.png';
                 } else {
