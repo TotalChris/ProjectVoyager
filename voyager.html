@@ -51,6 +51,12 @@
                 }
             });
             document.addEventListener('contextmenu', (evt) => {
+                if (evt.target.parentElement.classList.contains('item')){
+                    if(!evt.target.parentElement.classList.contains('select')){
+                        selectItem(evt.target.parentElement, 1);
+                    }
+                    cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString)
+                }
                 cmenu.style.top = evt.clientY;
                 cmenu.style.left = evt.clientX;
                 filelist.classList.remove('hover-enabled');
@@ -59,9 +65,11 @@
             function selectItem(item, slflag){
                 selected = document.getElementsByClassName('select');
                 if(item.classList.contains('select') && slflag === 0){
+                    //if the flag is zero, we are trying to toggle the checkbox
                     item.classList.remove('select');
                     item.children[0].src='./bin/img/chk0.png';
                 } else {
+                    //if the flag is 1, we want to deselect all other currently selected elements
                     if (slflag === 1){
                         Object.entries(selected).forEach((entry) => {
                         entry[1].classList.remove('select');

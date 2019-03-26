@@ -79,9 +79,6 @@ body {
   .select{
     font-weight: bold;
   }
-  .select img{
-    
-  }
   #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn {
     float: right;
   }

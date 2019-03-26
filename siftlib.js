@@ -1,5 +1,5 @@
 /*const path = require('path');*/
-const electron = require('electron'); 
+const { ipcRenderer, shell } = require('electron');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -43,9 +43,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         filelist.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fld.png'}"><img src="./bin/img/fld.png"/ onclick="selectItem(this.parentElement, 0)"><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}/</div></td></tr>`)
+                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fld.png'}"><img src="./bin/img/fld.png" onclick="selectItem(this.parentElement, 0)"/><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}/</div></td></tr>`)
                 } else {
-                filesout += (`<tr><td type="file" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fil.png'}"><img src="./bin/img/fil.png"/ onclick="selectItem(this.parentElement, 0)"><div class="itemNameText" onclick="selectItem(this.parentElement, 1)"ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}</div></td></tr>`)
+                filesout += (`<tr><td type="file" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fil.png'}"><img src="./bin/img/fil.png" onclick="selectItem(this.parentElement, 0)"/><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}</div></td></tr>`)
                 }
             })
         };
@@ -54,12 +54,9 @@ function createDirContent(directoryName) {
 function popCMenu(evt, pathString){
     
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
-    relpath = evt.target.attributes.elementname.value
-    var fullPath = pathString + relpath
     return `
-        <tr><td onclick="ipcRenderer.send('opn', '${fullPath}')"><img src="./bin/img/opn.png">Open</td></tr>
+        <tr><td class="item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="./bin/img/opn.png"><div class="itemNameText">Open</div></td></tr>
     `
-    
     
     
 
@@ -69,6 +66,15 @@ function popCMenu(evt, pathString){
     //populate a context menu based on that path
     //return the html
 }
+function openItems(pathString, items){
+    items.forEach((item) => {
+        if (item[1].attributes.type.value === 'file'){
+            shell.openItem(pathString + item[1].attributes.elementname.value);
+        } else {
+            goTo(pathString + item[1].attributes.elementname.value, 1)
+        }
+    });
+};
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
@@ -95,4 +101,4 @@ function popCMenu(evt, pathString){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, goUp, popCMenu }
+module.exports = { createDirContent, sift, goBack, goForth, goUp, popCMenu, openItems }
