@@ -35,3 +35,22 @@ body {
   #filelist tr:nth-child(even){background-color: #f2f2f2;}
   
   #filelist tr:hover {background-color: #ddd;}
+  #min_btn, #rsz_btn, #cls_btn {
+    float: right;
+    height: 35px;
+    width: 35px;
+    -webkit-app-region: no-drag;
+  }
+  #bck_btn {
+    float: left;
+    height: 35px;
+    width: 35px;
+    -webkit-app-region: no-drag;
+  }
+  #min_btn:hover, #rsz_btn:hover, #cls_btn:hover, #bck_btn:hover {
+    background-color: #ddd;
+    -webkit-app-region: no-drag;
+  }
+  #min_btn img, #rsz_btn img, #cls_btn img, #bck_btn img {
+    padding: 8.5px;
+  }
