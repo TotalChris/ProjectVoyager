@@ -5,44 +5,49 @@
         <link rel="stylesheet" href="sift.css"/>
     </head>
     <body onload="goTo(home, 0)" class="dark matte">
-    <div id="context">
-        <table id="context-table" class="itemlist hover-enabled">
-
-        </table>
-    </div>
-    <div id="titlewrapper">
-        <div id="titlebar">
-            <div id="bck_btn" class="topbtn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
-            <div id="fwd_btn" class="topbtn" onclick="ipcRenderer.send('fwd')"><img src="./bin/img/fwd.png"/></div>
-            <div id="titleplace"><p>Voyager File Manager (Beta)</p></div>
-            <div id="min_btn" class="topbtn" onclick="ipcRenderer.send('min')"><img src="./bin/img/min.png"/></div>
-            <div id="rsz_btn" class="topbtn" onclick="ipcRenderer.send('rsz')"><img src="./bin/img/max.png"/></div>
-            <div id="cls_btn" class="topbtn" onclick="ipcRenderer.send('cls')"><img src="./bin/img/cls.png"/></div>
-        </div>
-    </div>
-    <div id="pathboxcontainer">
-    <div id="mn_btn" class="topbtn" onclick=""><img src="./bin/img/mn.png"/></div>
-    <div id="up_btn" class="topbtn" onclick="ipcRenderer.send('up', pathString)"><img src="./bin/img/up.png"/></div>
-    <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
-    <div id="hm_btn" class="topbtn" onclick="goTo(home, 1)"><img src="./bin/img/hm.png"/></div>
-    <div id="rf_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 0)"><img src="./bin/img/rf.png"/></div>
-    <div id="go_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 1)"><img src="./bin/img/fwd.png"/></div>
-    </div>
-        <div id="content-box-holder">
-            <table class="itemlist hover-enabled" id="filelist">
+        <div id="context">
+            <table id="context-table" class="itemlist hover-enabled">
 
             </table>
         </div>
+        <div id="titlewrapper">
+            <div id="titlebar">
+                <div id="bck_btn" class="topbtn" onclick="goTo(siftlib.goBack(), 0)"><img src="./bin/img/bck.png"/></div>
+                <div id="fwd_btn" class="topbtn" onclick="goTo(siftlib.goForth(), 0)"><img src="./bin/img/fwd.png"/></div>
+                <div id="titleplace">
+                    <p>Voyager File Manager (Beta)</p>
+                </div>
+                <div id="min_btn" class="topbtn" onclick="win.minimize()"><img src="./bin/img/min.png"/></div>
+                <div id="rsz_btn" class="topbtn" onclick="resizeWin()"><img src="./bin/img/max.png"/></div>
+                <div id="cls_btn" class="topbtn" onclick="win.close()"><img src="./bin/img/cls.png"/></div>
+            </div>
+        </div>
+        <div id="pathboxcontainer">
+        <div id="mn_btn" class="topbtn" onclick=""><img src="./bin/img/mn.png"/></div>
+        <div id="up_btn" class="topbtn" onclick="goTo(path.parse(pathString).dir, 1)"><img src="./bin/img/up.png"/></div>
+        <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
+        <div id="hm_btn" class="topbtn" onclick="goTo(home, 1)"><img src="./bin/img/hm.png"/></div>
+        <div id="rf_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 0)"><img src="./bin/img/rf.png"/></div>
+        <div id="go_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 1)"><img src="./bin/img/fwd.png"/></div>
+        </div>
+            <div id="content-box-holder">
+                <table class="itemlist hover-enabled" id="filelist">
+
+                </table>
+            </div>
         <script>
             const os = require('os');
             const path = require('path');
             const { ipcRenderer, shell } = require('electron');
+            const win = require('electron').remote.getCurrentWindow();
             const siftlib = require('./siftlib');
             const fs = require('fs');
-            const home = os.homedir().replace(/\\/g, '/');
+            var home = os.homedir().replace(/\\/g, '/');
             var pathString = home;
-            filelist = document.getElementById('filelist');
+            var maxflag = 0;
+            var filelist = document.getElementById('filelist');
             var cmenu = document.getElementById('context');
+
             window.addEventListener("click", (evt) => {
                 evt.preventDefault();
                 if(cmenu.classList.contains('show')){
@@ -50,6 +55,7 @@
                     filelist.classList.add('hover-enabled');
                 }
             });
+
             document.addEventListener('contextmenu', (evt) => {
                 if (evt.target.parentElement.classList.contains('item')){
                     if(!evt.target.parentElement.classList.contains('select')){
@@ -62,6 +68,7 @@
                 filelist.classList.remove('hover-enabled');
                 cmenu.classList.add('show');
             })
+
             function selectItem(item, slflag){
                 selected = document.getElementsByClassName('select');
                 if(item.classList.contains('select') && slflag === 0){
@@ -85,7 +92,8 @@
                     item.classList.add('select');
                 }
             }
-            ipcRenderer.on('igot', (evt, args) => {
+
+            function render(args){
                 if (args.type === 'folder'){
                     document.getElementById('filelist').innerHTML = args.pagedata;
                     pathString = args.pathString;
@@ -94,32 +102,24 @@
                     console.log(args.pathString);
                     shell.openItem(args.pathString);
                 }
-            });
-            ipcRenderer.on('maxd', () => {
-                document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/res.png"/>';
-                ('d on renderer');
-            });
-            ipcRenderer.on('resd', () => {
-                document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/max.png"/>';
-                ('resized on renderer');
-            });
-            ipcRenderer.on('goget', (evt, pathString) => {
-                ipcRenderer.send('getme', pathString, 0)
-            });
+            }
+
             function textFieldKeyHandler(event) {
                 if (event.key === 'Enter') {
                     goTo(document.getElementById('pathbox').value, 1);
+                } else {
+
                 }
-                else {}
-            }
-            function goTo(pathString, navflag) { //will now be used as a wrapper for ipcRenderer.send('getme')
+            };
+
+        function goTo(pathString, navflag) {
             //error handle locally
             var stats = fs.stat(pathString, '', (err, stats) => {
                 if (err) {
                     //what's the issue?
                     switch (err) {
                         case 'EPERM': {
-                            console.log('You do not have the permissions to access '+pathString)
+                            console.log('You do not have the permissions to access ' + pathString)
                         }
                         default: {
                             console.log('Whoops! I got something wrong, here. Try that again.')
@@ -127,10 +127,30 @@
                     }
                 } else {
                     //if everything is okay...
-                    ipcRenderer.send('getme', pathString, navflag);
+                    render(siftlib.sift(pathString, navflag));
                 }
             })
         };
+    win.on('closed', () => {
+        win = null;
+    })
+    win.on('maximize', (evt) => {
+        document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/res.png"/>';
+    })
+    win.on('resize', (evt) => {
+        if (win.isMaximized() === false) {
+            document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/max.png"/>';
+        }
+    })
+    function resizeWin(){
+        if (maxflag === 0) {
+            maxflag = 1;
+            win.maximize();
+        } else {
+            maxflag = 0;
+            win.restore();
+        }
+    }
         </script>
     </body>
 </html>

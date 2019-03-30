@@ -1,9 +1,9 @@
 /*const path = require('path');*/
-const { ipcRenderer, shell } = require('electron');
+const { shell } = require('electron');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-var hindex = 0
+var hindex = 0;
 var hist = [os.homedir().replace(/\\/g, '/')];
 
 function sift(pathString, navflag) {
@@ -25,46 +25,34 @@ function goBack(){
     if (hindex > 0){
         hindex--
     }
-        return sift(hist[hindex], 0);
+        return hist[hindex]
 }
 function goForth(){
     if((hindex + 1) < hist.length){
         hindex++
     }
-        return sift(hist[hindex], 0);
-}
-function goUp(pathString){
-   return sift(path.parse(pathString).dir, 1)
+        return hist[hindex]
 }
 function createDirContent(directoryName) { 
     if(directoryName !== '/favicon.ico'){
-    filelist = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
+    files = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
         var filesout = ``;
         var foldersout = ``;
-        filelist.forEach((element) => {
+        files.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fld.png'}"><img src="./bin/img/fld.png" onclick="selectItem(this.parentElement, 0)"/><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}/</div></td></tr>`)
+                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fld.png'}"><img src="./bin/img/fld.png" onclick="selectItem(this.parentElement, 0)"/><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))">${element.name}/</div></td></tr>`)
                 } else {
-                filesout += (`<tr><td type="file" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fil.png'}"><img src="./bin/img/fil.png" onclick="selectItem(this.parentElement, 0)"/><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="ipcRenderer.send('getme', pathString + '${element.name}', 1)">${element.name}</div></td></tr>`)
+                filesout += (`<tr><td type="file" elementname="${element.name}" class="item" onmouseover="if(!this.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.classList.contains('select')){this.children[0].src='./bin/img/fil.png'}"><img src="./bin/img/fil.png" onclick="selectItem(this.parentElement, 0)"/><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))">${element.name}</div></td></tr>`)
                 }
             })
         };
         return foldersout + filesout
     }
 function popCMenu(evt, pathString){
-    
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     return `
         <tr><td class="item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="./bin/img/opn.png"><div class="itemNameText">Open</div></td></tr>
     `
-    
-    
-
-    //isfile and isdir checks
-    
-    //extract the file location from this info
-    //populate a context menu based on that path
-    //return the html
 }
 function openItems(pathString, items){
     items.forEach((item) => {
@@ -101,4 +89,4 @@ function openItems(pathString, items){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, goUp, popCMenu, openItems }
+module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems }
