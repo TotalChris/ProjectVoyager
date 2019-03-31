@@ -1,7 +1,9 @@
 # Project Voyager
 A new and universal file manager built for the way you work, on any platform. (Win, Mac, Linux)
 
-# So what does it do?
+***
+**So what does it do?**
+
 Voyager can navigate through your local filesystem and open any file in its default program. That's... pretty much it right now. I am in the process of wrapping up basic file movement functions. (cut, copy, paste) This should be done soon. therefore, Voyager is not a fully-featured or official file "manager" as of yet. I work and go to high school right now so this is basically my personal project. I hope you can understand 😁
 
 * Feedback: siftdevelopment@gmail.com
