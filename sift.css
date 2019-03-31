@@ -52,6 +52,9 @@ body {
 #titleplace p{
   margin: 8px;
 }
+#warn-holder{
+  text-align: center;
+}
   .itemlist {
     width: 100%;
     border-collapse: collapse;
@@ -73,7 +76,7 @@ body {
   .itemlist tr:nth-child(odd){
     background-color: var(--secondary);
   }
-  .itemlist.hover-enabled tr:hover, .select{
+  .itemlist.hover-enabled tr div:hover, .select{
     background-color: var(--trietary);
   }
   .select{
@@ -88,22 +91,47 @@ body {
   .itemNameText{
     width: -webkit-fill-available;
     padding: 8px;
-    padding-left: 0px;
+    padding-left: 8px;
     white-space: nowrap;
   }
+  .btmbtnText{
+    padding: 8px;
+    padding-left: 8px;
+    white-space: nowrap;
+    text-align: center;
+  }
+  #warn-holder{
+    margin: 8px;
+  }
+  .btmbtn{
+    display: flex;
+    width: -webkit-fill-available;
+    height: 35px;
+  }
+  .btmbtn:hover{
+    background-color: var(--trietary);
+  }
   .item{
+    height: 35px;
     padding: 0px;
     display: flex;
   }
-  .item img{
+  .item img, .btmbtn img {
     filter: invert(var(--icon-trans));
-    padding: 8px;
+    padding: 8.5px;
+  }
+  .subject{
+    filter: invert(var(--icon-trans));
+  }
+  .subject-holder{
+    height: 96px;
+    width: 96px;
+    margin: auto;
   }
   .topbtn{
     height: 35px;
     width: 35px;
     -webkit-app-region: no-drag;
-    background-color: var(--primary);
   }
   .topbtn:hover, #pathbox:hover {
     background-color: var(--trietary);

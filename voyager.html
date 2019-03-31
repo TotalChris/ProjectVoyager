@@ -74,21 +74,21 @@
                 if(item.classList.contains('select') && slflag === 0){
                     //if the flag is zero, we are trying to toggle the checkbox
                     item.classList.remove('select');
-                    item.children[0].src='./bin/img/chk0.png';
+                    item.children[0].children[0].src='./bin/img/chk0.png';
                 } else {
                     //if the flag is 1, we want to deselect all other currently selected elements
                     if (slflag === 1){
                         Object.entries(selected).forEach((entry) => {
                         entry[1].classList.remove('select');
                             if(entry[1].attributes.type.value === "folder"){
-                                    entry[1].children[0].src='./bin/img/fld.png';
+                                    entry[1].children[0].children[0].src='./bin/img/fld.png';
                             }
                             if(entry[1].attributes.type.value === "file"){
-                                    entry[1].children[0].src='./bin/img/fil.png';
+                                    entry[1].children[0].children[0].src='./bin/img/fil.png';
                             }
                         });
                     }
-                    item.children[0].src='./bin/img/chk1.png';
+                    item.children[0].children[0].src='./bin/img/chk1.png';
                     item.classList.add('select');
                 }
             }
@@ -116,13 +116,24 @@
             //error handle locally
             var stats = fs.stat(pathString, '', (err, stats) => {
                 if (err) {
+                    console.log(err.code); 
                     //what's the issue?
-                    switch (err) {
-                        case 'EPERM': {
-                            console.log('You do not have the permissions to access ' + pathString)
+                    switch (err.code) {
+                        case ('EPERM'): {
+                            notify('Your system restricts "' + pathString + '".');
+                            break;
+                        }
+                        case ('ENOENT'): {
+                            notify(pathString + ' does not exist in the current filesystem.');
+                            break;
+                        }
+                        case ('EACCES'): {
+                            notify('You do not have the account permissions to access "' + pathString + '".');
+                            break;
                         }
                         default: {
-                            console.log('Whoops! I got something wrong, here. Try that again.')
+                            notify('Whoops! I got something wrong, here. Try that again.')
+                            break;
                         }
                     }
                 } else {
@@ -131,6 +142,9 @@
                 }
             })
         };
+    function notify(message){
+        ipcRenderer.send('ntf', message);
+    }
     win.on('closed', () => {
         win = null;
     })
