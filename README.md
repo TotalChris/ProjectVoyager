@@ -1,7 +1,8 @@
 # Project Voyager
 A new and universal file manager built for the way you work, on any platform. (Win, Mac, Linux)
 
-I am in the process of wrapping up basic file movement functions. (cut, copy, paste) This should be done soon. therefore, Voyager is not a fully-featured or official file "manager" as of yet. I work and go to high school right now so this is basically my personal project. I hope you can understand 😁
+# So what does it do?
+Voyager can navigate through your local filesystem and open any file in its default program. That's... pretty much it right now. I am in the process of wrapping up basic file movement functions. (cut, copy, paste) This should be done soon. therefore, Voyager is not a fully-featured or official file "manager" as of yet. I work and go to high school right now so this is basically my personal project. I hope you can understand 😁
 
 * Feedback: siftdevelopment@gmail.com
 * Telegram: [t.me/ProjectVoyager](https://t.me/ProjectVoyager)
@@ -11,7 +12,7 @@ I am in the process of wrapping up basic file movement functions. (cut, copy, pa
 ***
 **Project Goal**
 
-Develop the world's most powerful and easiest-to-use file manager in a cross-platform environment
+Develop the world's most powerful and easiest-to-use file manager in a beautiful, cross-platform environment.
 ***
 **Development Screenshots**
 
@@ -52,7 +53,7 @@ You can exit the window at any time by normal means, including from the command 
 ***
 **Known Issues**
 
-* If you attempt to access a folder that your host does not allow access to, Voyager will instantly throw an error.
+There are no known issues as of this revision (03/31/19)
 ***
 **Final Words**
 
