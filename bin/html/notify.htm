@@ -2,7 +2,7 @@
     <head>
         <title>Voyager File Manager</title>
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        <link rel="stylesheet" href="sift.css"/>
+        <link rel="stylesheet" href="../css/sift.css"/>
     </head>
     <body class="dark matte">
         <div id="titlewrapper">
@@ -11,12 +11,12 @@
                 <div id="titleplace">
                     <p>Error</p>
                 </div>
-                <div id="cls_btn" class="topbtn" onclick="nwin.close()"><img src="./bin/img/cls.png"/></div>
+                <div id="cls_btn" class="topbtn" onclick="nwin.close()"><img src="../img/cls.png"/></div>
             </div>
         </div>
-        <div class="subject-holder"><img src="./bin/img/wrn.png" class="subject"></div>
+        <div class="subject-holder"><img src="../img/wrn.png" class="subject"></div>
         <div id="warn-holder"></div>
-        <div class="btmbtn" onclick="nwin.close(); nwin = null;"><img src="./bin/img/ok.png"/><div class="btmbtnText">Ok</div></div>
+        <div class="btmbtn" onclick="nwin.close(); nwin = null;"><img src="../img/ok.png"/><div class="btmbtnText">Ok</div></div>
             <script>
                 const electron = require('electron')
                 let nwin = require('electron').remote.getCurrentWindow();

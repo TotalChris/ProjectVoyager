@@ -40,9 +40,9 @@ function createDirContent(directoryName) {
         var foldersout = ``;
         files.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='./bin/img/fld.png'}"><img src="./bin/img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))">${element.name}/</div></td></tr>`)
+                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))">${element.name}/</div></td></tr>`)
                 } else {
-                filesout += (`<tr><td type="file" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='./bin/img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='./bin/img/fil.png'}"><img src="./bin/img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))">${element.name}</div></td></tr>`)
+                filesout += (`<tr><td type="file" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemNameText" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))">${element.name}</div></td></tr>`)
                 }
             })
         };
@@ -51,7 +51,7 @@ function createDirContent(directoryName) {
 function popCMenu(evt, pathString){
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     return `
-        <tr><td class="item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="./bin/img/opn.png"><div class="itemNameText">Open</div></td></tr>
+        <tr><td class="item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemNameText">Open</div></td></tr>
     `
 }
 function openItems(pathString, items){

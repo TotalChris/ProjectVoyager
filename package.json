@@ -2,7 +2,7 @@
   "name": "projectvoyager",
   "version": "1.0.0",
   "description": "A new and universal file manager built for the way you work.",
-  "main": "index.js",
+  "main": "./bin/js/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."

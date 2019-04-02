@@ -52,6 +52,11 @@ body {
 #titleplace p{
   margin: 8px;
 }
+#menupanel{
+  height: 105;
+  width: 100%;
+  display: none;
+}
 #warn-holder{
   text-align: center;
 }

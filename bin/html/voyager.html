@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Voyager File Manager</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="../css/sift.css"/>
+    </head>
+    <body onload="goTo(home, 0)" class="dark matte">
+        <div id="context">
+            <table id="context-table" class="itemlist hover-enabled">
+            </table>
+        </div>
+        <div id="titlewrapper">
+            <div id="titlebar">
+                <div id="mn_btn" class="topbtn" onclick="menuPanel()"><img src="../img/mn.png"/></div>
+                <div id="titleplace">
+                    <p>Voyager File Manager (Beta)</p>
+                </div>
+                <div id="min_btn" class="topbtn" onclick="win.minimize()"><img src="../img/min.png"/></div>
+                <div id="rsz_btn" class="topbtn" onclick="resizeWin()"><img src="../img/max.png"/></div>
+                <div id="cls_btn" class="topbtn" onclick="win.close()"><img src="../img/cls.png"/></div>
+            </div>
+            <div id="menupanel">
+            </div>
+        </div>
+        <div id="pathboxcontainer">
+        <div id="bck_btn" class="topbtn" onclick="goTo(siftlib.goBack(), 0)"><img src="../img/bck.png"/></div>
+        <div id="fwd_btn" class="topbtn" onclick="goTo(siftlib.goForth(), 0)"><img src="../img/fwd.png"/></div>
+        <div id="up_btn" class="topbtn" onclick="goTo(path.parse(pathString).dir, 1)"><img src="../img/up.png"/></div>
+        <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
+        <div id="hm_btn" class="topbtn" onclick="goTo(home, 1)"><img src="../img/hm.png"/></div>
+        <div id="rf_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 0)"><img src="../img/rf.png"/></div>
+        <div id="go_btn" class="topbtn" onclick="goTo(document.getElementById('pathbox').value, 1)"><img src="../img/fwd.png"/></div>
+        </div>
+            <div id="content-box-holder">
+                <table class="itemlist hover-enabled" id="filelist">
+                </table>
+            </div>
+        <script src="../js/voyager.js"></script>
+    </body>
+</html>
