@@ -8,11 +8,39 @@ const fs = require('fs');
 var home = os.homedir().replace(/\\/g, '/');
 var pathString = home;
 var maxflag = 0;
+var thmflag = false;
 panel.style.display = 'none'
 
+var body = document.body;
 var filelist = document.getElementById('filelist');
 var cmenu = document.getElementById('context');
 
+function init(){
+    applyTheme(false)
+    goTo(home, 0)
+}
+
+function applyTheme(val){
+    var args = { 'src': '' , 'text': '' }
+    if (val !== null){
+        thmflag = val;
+    }
+    if (thmflag === false){
+        body.classList.remove('light');
+        body.classList.add('dark');
+        args.src = '../img/lgt.png';
+        args.text = 'Light Mode';
+    } else {
+        body.classList.remove('dark');
+        body.classList.add('light');
+        args.src = '../img/drk.png';
+        args.text = 'Dark Mode';
+    }
+    document.getElementById('themeswitch').children[0].children[0].src = args.src;
+    document.getElementById('themeswitch').children[1].innerHTML = args.text;
+}
+
+document.getElementById('themeswitch').addEventListener('click', () => {applyTheme(!thmflag);});
 window.addEventListener("click", (evt) => {
     evt.preventDefault();
     if(cmenu.classList.contains('show')){
@@ -20,11 +48,10 @@ window.addEventListener("click", (evt) => {
         filelist.classList.add('hover-enabled');
     }
 });
-
 document.addEventListener('contextmenu', (evt) => {
-    if (evt.target.parentElement.classList.contains('item')){
-        if(!evt.target.parentElement.classList.contains('select')){
-            selectItem(evt.target.parentElement, 1);
+    if (evt.target.parentElement.classList.contains('item') || evt.target.parentElement.parentElement.classList.contains('item')){
+        if(!evt.target.parentElement.parentElement.classList.contains('select') && evt.target.classList.contains('itemNameText')){
+            selectItem(evt.target.parentElement.parentElement, 1);
         }
         cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString)
     }
