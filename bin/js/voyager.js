@@ -17,9 +17,12 @@ var cmenu = document.getElementById('context');
 
 function init(){
     applyTheme(false)
-    goTo(home, 0)
+    ipcRenderer.send('gth');
 }
-
+ipcRenderer.on('goto', (evt, loc) => {
+    console.log(loc)
+    goTo(loc, 0);
+})
 function applyTheme(val){
     var args = { 'src': '' , 'text': '' }
     if (val !== null){

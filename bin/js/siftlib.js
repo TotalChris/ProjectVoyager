@@ -3,6 +3,7 @@ const { shell } = require('electron');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const child_proc = require('child_process');
 var hindex = 0;
 var hist = [os.homedir().replace(/\\/g, '/')];
 
@@ -59,10 +60,14 @@ function openItems(pathString, items){
         if (item[1].attributes.type.value === 'file'){
             shell.openItem(pathString + item[1].attributes.elementname.value);
         } else {
-            goTo(pathString + item[1].attributes.elementname.value, 1)
+            newWindow(pathString + item[1].attributes.elementname.value, 1);
         }
     });
 };
+function newWindow(pathString){
+    child_proc.exec('electron ' + path.normalize(__dirname + "/../../") + ' "' + pathString + '"');
+}
+
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
