@@ -21,7 +21,7 @@ function init(){
 }
 ipcRenderer.on('goto', (evt, loc) => {
     console.log(loc)
-    goTo(loc, 0);
+    goTo(loc, 1);
 })
 function applyTheme(val){
     var args = { 'src': '' , 'text': '' }
@@ -55,6 +55,8 @@ document.addEventListener('contextmenu', (evt) => {
     if (evt.target.parentElement.classList.contains('item') || evt.target.parentElement.parentElement.classList.contains('item')){
         if(!evt.target.parentElement.parentElement.classList.contains('select') && evt.target.classList.contains('itemNameText')){
             selectItem(evt.target.parentElement.parentElement, 1);
+        } else {
+            document.getElementById('cd').classList.add('select'); 
         }
         cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString)
     }

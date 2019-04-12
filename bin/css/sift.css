@@ -52,6 +52,9 @@ body {
 #titleplace p{
   margin: 8px;
 }
+#cd{
+  padding: 0px;
+}
 #menupanel{
   height: 105;
   width: 100%;
@@ -63,6 +66,7 @@ body {
   .itemlist {
     width: 100%;
     border-collapse: collapse;
+    background-color: var(--primary)
   }
   #pathboxcontainer{
       width: 100%;
@@ -97,10 +101,10 @@ body {
     width: -webkit-fill-available;
   }
   .itemNameText{
-    width: min-content;
     padding: 8px;
     padding-left: 8px;
     white-space: nowrap;
+    width: min-content;
   }
   .panelItem{
     width: 70px;
@@ -142,12 +146,15 @@ body {
   .btmbtn:hover, .panelItem:hover{
     background-color: var(--trietary);
   }
-  .item{
+  .item, .context-item{
     height: 35px;
     padding: 0px;
     display: flex;
   }
-  .item img, .btmbtn img{
+  .context-item:hover{
+    background-color: var(--trietary);
+  }
+  .item img, .btmbtn img, .context-item img{
     filter: invert(var(--icon-trans));
     padding: 8.5px;
   }

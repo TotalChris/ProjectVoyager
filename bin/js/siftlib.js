@@ -4,8 +4,10 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const child_proc = require('child_process');
-var hindex = 0;
-var hist = [os.homedir().replace(/\\/g, '/')];
+var hindex = -1;
+var hist = [];
+var cindex = -1;
+var clipboard = [];
 
 function sift(pathString, navflag) {
     //navflag is set to 1 if moving using the filelist. This will log history and overwrite the previous entries
@@ -39,6 +41,7 @@ function createDirContent(directoryName) {
     files = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
         var filesout = ``;
         var foldersout = ``;
+        foldersout += (`<tr id="cdrow"><td id="cd" type="folder" elementname="${directoryName}"></td></tr>`)
         files.forEach((element) => {
                 if (element.isDirectory()) {
                 foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))"><div class="itemNameText">${element.name}/</div></div></td></tr>`)
@@ -52,7 +55,10 @@ function createDirContent(directoryName) {
 function popCMenu(evt, pathString){
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     return `
-        <tr><td class="item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow itemNameText">Open</div></td></tr>
+    <table class="itemlist hover-enabled">
+        <tr><td class="context-item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow itemNameText">Open</div></td></tr>
+        <tr><td class="context-item" onclick="siftlib.addItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="../img/cop.png"><div class="itemRow itemNameText">Copy</div></td></tr>
+    </table>
     `
 }
 function openItems(pathString, items){
@@ -66,6 +72,13 @@ function openItems(pathString, items){
 };
 function newWindow(pathString){
     child_proc.exec('electron ' + path.normalize(__dirname + "/../../") + ' "' + pathString + '"');
+}
+function addItems(pathString, items){
+    items.forEach((item) => {
+        cindex = cindex.length + 1;
+        clipboard[cindex] += { 'path': pathstring + item, 'cutflag': 0 };
+    })
+    console.log(clipboard)
 }
 
 /*function setContentType(filePath){
@@ -94,4 +107,4 @@ function newWindow(pathString){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems }
+module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, hist }
