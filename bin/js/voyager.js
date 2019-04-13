@@ -52,14 +52,16 @@ window.addEventListener("click", (evt) => {
     }
 });
 document.addEventListener('contextmenu', (evt) => {
-    if (evt.target.parentElement.classList.contains('item') || evt.target.parentElement.parentElement.classList.contains('item')){
-        if(!evt.target.parentElement.parentElement.classList.contains('select') && evt.target.classList.contains('itemNameText')){
-            selectItem(evt.target.parentElement.parentElement, 1);
-        } else {
-            selectItem(document.getElementById('cd'), 1)
-        }
-        cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString)
-    }
+    if (evt.target.parentElement.classList.contains('item') || evt.target.parentElement.parentElement.classList.contains('item')){ //if our target is an item,
+        if(!evt.target.parentElement.parentElement.classList.contains('select') && !evt.target.parentElement.classList.contains('select')){  //and and the element isn't selected at the moment,
+            if(evt.target.classList.contains('itemNameText')){ //and if the text of the element was right-clicked,
+                selectItem(evt.target.parentElement.parentElement, 1);  //go ahead and select it, and clear out the other selected elements.
+            } else { //But, if the click happened outside the item's text,
+                selectItem(document.getElementById('cd'), 1) //select the cd element, representing the entire folder, and clear the others.
+            }
+        } //But, in the case of the element's state, if it was already selected, we can just do nothing because the user wants to select what's already been chosen
+        cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString) //since we know we have items being selected, we can now populate the context menu
+    }//now just draw and show it
     cmenu.style.top = evt.clientY;
     cmenu.style.left = evt.clientX;
     filelist.classList.remove('hover-enabled');
