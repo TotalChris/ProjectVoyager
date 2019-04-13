@@ -41,7 +41,7 @@ function createDirContent(directoryName) {
     files = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
         var filesout = ``;
         var foldersout = ``;
-        foldersout += (`<tr id="cdrow"><td id="cd" type="folder" elementname="${directoryName}"></td></tr>`)
+        foldersout += (`<tr><td type="folder" elementname="/" class="item" id="cd"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '/', 1))"><div class="itemNameText">/</div></div></td></tr>`)
         files.forEach((element) => {
                 if (element.isDirectory()) {
                 foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))"><div class="itemNameText">${element.name}/</div></div></td></tr>`)
@@ -75,10 +75,11 @@ function newWindow(pathString){
 }
 function addItems(pathString, items){
     items.forEach((item) => {
-        cindex = cindex.length + 1;
-        clipboard[cindex] += { 'path': pathstring + item, 'cutflag': 0 };
+        cindex = cindex + 1;
+        clipboard[cindex] = { 'path': pathString + item[1].attributes.elementname.value, 'cutflag': 0 };
     })
     console.log(clipboard)
+    console.log(cindex)
 }
 
 /*function setContentType(filePath){
@@ -107,4 +108,4 @@ function addItems(pathString, items){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, hist }
+module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, addItems, hist }

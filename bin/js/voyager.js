@@ -56,7 +56,7 @@ document.addEventListener('contextmenu', (evt) => {
         if(!evt.target.parentElement.parentElement.classList.contains('select') && evt.target.classList.contains('itemNameText')){
             selectItem(evt.target.parentElement.parentElement, 1);
         } else {
-            document.getElementById('cd').classList.add('select'); 
+            selectItem(document.getElementById('cd'), 1)
         }
         cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString)
     }

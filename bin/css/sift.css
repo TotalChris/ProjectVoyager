@@ -53,7 +53,7 @@ body {
   margin: 8px;
 }
 #cd{
-  padding: 0px;
+  display: none;
 }
 #menupanel{
   height: 105;
@@ -212,4 +212,8 @@ body {
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: var(--trietary); 
+  }
+
+  ::-webkit-scrollbar-corner{
+    background: var(--primary)
   }
