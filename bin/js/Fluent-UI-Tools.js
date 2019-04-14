@@ -3,11 +3,12 @@
 
 //This Node.js module defines a couple of simple
 //methods for checking system-wide UI prefs in
-//Windows 10. This allows for an app to comply 
-//with the user's Windows UI. 
+//Windows 10. This allows for a graphical 
+//app to comply with the user's Windows UI. 
 
 //The 'windows-registy' module is required, use
-//npm to install it by name in your project
+//npm to install it by name in your project, along
+//with npm's windows-build-tools. (see readme.md)
 
 const reg = require('windows-registry');
 
