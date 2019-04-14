@@ -58,6 +58,7 @@ function popCMenu(evt, pathString){
     <table class="itemlist hover-enabled">
         <tr><td class="context-item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow itemNameText">Open</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.addItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="../img/cop.png"><div class="itemRow itemNameText">Copy</div></td></tr>
+        <tr><td class="context-item" onclick="siftlib.dumpItems('${pathString}')"><img src="../img/pst.png"><div class="itemRow itemNameText">Paste</div></td></tr>
     </table>
     `
 }
@@ -74,6 +75,8 @@ function newWindow(pathString){
     child_proc.exec('electron ' + path.normalize(__dirname + "/../../") + ' "' + pathString + '"');
 }
 function addItems(pathString, items){
+    cindex = -1
+    clipboard = []
     items.forEach((item) => {
         cindex = cindex + 1;
         clipboard[cindex] = { 'path': pathString + item[1].attributes.elementname.value, 'cutflag': 0 };
@@ -83,8 +86,10 @@ function addItems(pathString, items){
 }
 function dumpItems(pathString){
     Object.entries(clipboard).forEach((entry) => {
-        console.log(entry)
-    })
+        fs.copyFile(entry[1].path, pathString, (err) => {
+            if (err) throw err;
+        });
+    });
 }
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
