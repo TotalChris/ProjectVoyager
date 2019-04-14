@@ -4,8 +4,10 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const child_proc = require('child_process');
-var hindex = 0;
-var hist = [os.homedir().replace(/\\/g, '/')];
+var hindex = -1;
+var hist = [];
+var cindex = -1;
+var clipboard = [];
 
 function sift(pathString, navflag) {
     //navflag is set to 1 if moving using the filelist. This will log history and overwrite the previous entries
@@ -39,11 +41,12 @@ function createDirContent(directoryName) {
     files = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
         var filesout = ``;
         var foldersout = ``;
+        foldersout += (`<tr><td type="folder" elementname="/" class="item" id="cd"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '/', 1))"><div class="itemNameText">/</div></div></td></tr>`)
         files.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))"><div class="itemNameText">${element.name}/</div></div></td></tr>`)
+                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}/</div></div></td></tr>`)
                 } else {
-                filesout += (`<tr><td type="file" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '${element.name}', 1))"><div class="itemNameText">${element.name}</div></div></td></tr>`)
+                filesout += (`<tr><td type="file" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
                 }
             })
         };
@@ -52,7 +55,14 @@ function createDirContent(directoryName) {
 function popCMenu(evt, pathString){
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     return `
-        <tr><td class="item" onclick="siftlib.openItems('${pathString}', Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow itemNameText">Open</div></td></tr>
+    <table class="itemlist hover-enabled">
+        <tr><td class="context-item" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow itemNameText">Open</div></td></tr>
+        <tr><td class="context-item" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 1)"><img src="../img/cut.png"><div class="itemRow itemNameText">Cut</div></td></tr>
+        <tr><td class="context-item" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 0)"><img src="../img/cop.png"><div class="itemRow itemNameText">Copy</div></td></tr>
+        <tr><td class="context-item" onclick="siftlib.dumpItems(pathString)"><img src="../img/pst.png"><div class="itemRow itemNameText">Paste</div></td></tr>
+        <tr><td class="context-item" onclick="siftlib.deleteItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/dlt.png"><div class="itemRow itemNameText">Delete</div></td></tr>
+
+    </table>
     `
 }
 function openItems(pathString, items){
@@ -67,7 +77,31 @@ function openItems(pathString, items){
 function newWindow(pathString){
     child_proc.exec('electron ' + path.normalize(__dirname + "/../../") + ' "' + pathString + '"');
 }
-
+function addItems(pathString, items, cutflag){
+    cindex = -1
+    clipboard = []
+    items.forEach((item) => {
+        cindex = cindex + 1;
+        clipboard[cindex] = { 'path': pathString + item[1].attributes.elementname.value, 'cutflag': cutflag };
+    })
+}
+function dumpItems(pathString){
+    Object.entries(clipboard).forEach((entry) => {
+        fs.copyFileSync(entry[1].path, pathString + path.parse(entry[1].path).base);
+        if(entry[1].cutflag === 1){
+            fs.unlink(entry[1].path, (err) => {
+                if (err) throw err;
+            });    
+        }
+    });
+}
+function deleteItems(pathString, items){
+    items.forEach((item) => {
+        fs.unlink(pathString + item[1].attributes.elementname.value, (err) => {
+            if (err) throw err;
+        });  
+    });
+};
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
@@ -94,4 +128,4 @@ function newWindow(pathString){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems }
+module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, addItems, hist, dumpItems, deleteItems }

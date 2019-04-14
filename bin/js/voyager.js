@@ -23,7 +23,7 @@ function init(){
 }
 ipcRenderer.on('goto', (evt, loc) => {
     console.log(loc)
-    goTo(loc, 0);
+    goTo(loc, 1);
 })
 function applyTheme(val){
     var args = { 'src': '' , 'text': '' }
@@ -73,12 +73,16 @@ window.addEventListener("click", (evt) => {
     }
 });
 document.addEventListener('contextmenu', (evt) => {
-    if (evt.target.parentElement.classList.contains('item') || evt.target.parentElement.parentElement.classList.contains('item')){
-        if(!evt.target.parentElement.parentElement.classList.contains('select') && evt.target.classList.contains('itemNameText')){
-            selectItem(evt.target.parentElement.parentElement, 1);
-        }
-        cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString)
-    }
+    if (evt.target.parentElement.classList.contains('item') || evt.target.parentElement.parentElement.classList.contains('item')){ //if our target is an item,
+        if(!evt.target.parentElement.parentElement.classList.contains('select') && !evt.target.parentElement.classList.contains('select')){  //and and the element isn't selected at the moment,
+            if(evt.target.classList.contains('itemNameText')){ //and if the text of the element was right-clicked,
+                selectItem(evt.target.parentElement.parentElement, 1);  //go ahead and select it, and clear out the other selected elements.
+            } else { //But, if the click happened outside the item's text,
+                selectItem(document.getElementById('cd'), 1) //select the cd element, representing the entire folder, and clear the others.
+            }
+        } //But, in the case of the element's state, if it was already selected, we can just do nothing because the user wants to select what's already been chosen
+        cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString) //since we know we have items being selected, we can now populate the context menu
+    }//now just draw and show it
     cmenu.style.top = evt.clientY;
     cmenu.style.left = evt.clientX;
     filelist.classList.remove('hover-enabled');
@@ -140,23 +144,27 @@ function textFieldKeyHandler(event) {
     }
 };
 
-function goTo(pathString, navflag) {
+function goTo(newPathString, navflag) {
+    if (pathString !== newPathString){
+        fs.unwatchFile(pathString);
+        console.log("No longer watching " + pathString);
+    }
     //error handle locally
-    var stats = fs.stat(pathString, '', (err, stats) => {
+    var stats = fs.stat(newPathString, '', (err, stats) => {
         if (err) {
             console.log(err.code); 
             //what's the issue?
             switch (err.code) {
                 case ('EPERM'): {
-                    notify('Your system restricts "' + pathString + '".');
+                    notify('Your system restricts "' + newPathString + '".');
                     break;
                 }
                 case ('ENOENT'): {
-                    notify(pathString + ' does not exist in the current filesystem.');
+                    notify(newPathString + ' does not exist in the current filesystem.');
                     break;
                 }
                 case ('EACCES'): {
-                    notify('You do not have the account permissions to access "' + pathString + '".');
+                    notify('You do not have the account permissions to access "' + newPathString + '".');
                     break;
                 }
                 default: {
@@ -166,7 +174,11 @@ function goTo(pathString, navflag) {
             }
         } else {
             //if everything is okay...
-            render(siftlib.sift(pathString, navflag));
+            render(siftlib.sift(newPathString, navflag));
+            fs.watch(newPathString, (evt, file) => {
+                goTo(pathString);
+            })
+            console.log("Watching " + newPathString);
         }
     })
 };
