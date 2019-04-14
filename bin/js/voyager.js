@@ -123,23 +123,27 @@ function textFieldKeyHandler(event) {
     }
 };
 
-function goTo(pathString, navflag) {
+function goTo(newPathString, navflag) {
+    if (pathString !== newPathString){
+        fs.unwatchFile(pathString);
+        console.log("No longer watching " + pathString);
+    }
     //error handle locally
-    var stats = fs.stat(pathString, '', (err, stats) => {
+    var stats = fs.stat(newPathString, '', (err, stats) => {
         if (err) {
             console.log(err.code); 
             //what's the issue?
             switch (err.code) {
                 case ('EPERM'): {
-                    notify('Your system restricts "' + pathString + '".');
+                    notify('Your system restricts "' + newPathString + '".');
                     break;
                 }
                 case ('ENOENT'): {
-                    notify(pathString + ' does not exist in the current filesystem.');
+                    notify(newPathString + ' does not exist in the current filesystem.');
                     break;
                 }
                 case ('EACCES'): {
-                    notify('You do not have the account permissions to access "' + pathString + '".');
+                    notify('You do not have the account permissions to access "' + newPathString + '".');
                     break;
                 }
                 default: {
@@ -149,7 +153,11 @@ function goTo(pathString, navflag) {
             }
         } else {
             //if everything is okay...
-            render(siftlib.sift(pathString, navflag));
+            render(siftlib.sift(newPathString, navflag));
+            fs.watch(newPathString, (evt, file) => {
+                goTo(pathString);
+            })
+            console.log("Watching " + newPathString);
         }
     })
 };
