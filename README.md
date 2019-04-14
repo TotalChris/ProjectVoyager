@@ -29,6 +29,7 @@ To build the current version of Project Voyager, make sure you have these prereq
 
 * node/npm
 * git
+* Microsoft Visual Studio Build Tools (If you want to test fluent design features)
 
 Then, run:
 
@@ -42,11 +43,19 @@ Next, cd into 'ProjectVoyager' and run:
 npm i
 ```
 
+Optionally, if you want to test fluent design features found in the Fluent-UI-Tools.js script (Windows only), run:
+
+```
+npm install --global --production windows-build-tools
+npm install windows-registry
+```
+
 After dependencies have been installed, run Voyager with:
 
 ```
 npm start
 ```
+
 ***
 **Usage**
 

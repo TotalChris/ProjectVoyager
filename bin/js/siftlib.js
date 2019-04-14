@@ -81,7 +81,11 @@ function addItems(pathString, items){
     console.log(clipboard)
     console.log(cindex)
 }
-
+function dumpItems(pathString){
+    Object.entries(clipboard).forEach((entry) => {
+        console.log(entry)
+    })
+}
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
@@ -108,4 +112,4 @@ function addItems(pathString, items){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, addItems, hist }
+module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, addItems, hist, dumpItems }

@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/TotalChris/ProjectVoyager#readme",
   "dependencies": {
-    "electron": "^4.1.0",
-    "windows-registry": "^0.1.3"
+    "electron": "^4.1.0"
   }
 }
