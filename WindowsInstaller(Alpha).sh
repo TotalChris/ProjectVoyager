@@ -42,8 +42,9 @@ else
     cd ProjectVoyager
     npm i
     echo "Thank You For Installing Voyager!"
-    cd C:\Program Files\
-    cd ProjectVoyager
+    cd C:\
+    
+	cd ProjectVoyager\
     npm start
 	sleep 1
 fi
