@@ -1,3 +1,5 @@
+#Launcher By: Larvey
+#Project Voyager By: Total Chris
 echo -ne '-->                       (05%)\r'
 sleep .5
 echo -ne '---->                     (10%)\r'
@@ -16,12 +18,16 @@ echo -ne '------------------------->(99%)\r'
 sleep .1
 echo -ne '-------------------------X(100%)\r'
 echo -ne '\n'
-cd ~
+#Loading Bar ^
+cd ~ #Cd's the Home Directory
 if [ -d "ProjectVoyager" ]
+#Checks If ProjectVoyager is Installed
 then
+#If Installed Run
     cd ProjectVoyager
     sudo npm start 
 else
+#If Not Install
     echo "Project Voyager is not Installed"    
     echo "Press The [ENTER] Key To Install."
     read -p "$*"
