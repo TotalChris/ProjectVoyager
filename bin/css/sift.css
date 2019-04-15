@@ -16,10 +16,19 @@
 .dark{
   --constant-invert: 255;
   --constant-primary: 0;
-  --invert: rgba(255, 255, 255);;
+  --invert: rgb(255, 255, 255);
   --primary: rgba(0, 0, 0, var(--transparency));
   --secondary: rgba(13, 13, 13, var(--transparency));
   --trietary: rgba(32, 32, 32, var(--transparency));;
+  --icon-trans: 100%;
+}
+.deep{
+  --constant-invert: 255;
+  --constant-primary: 0;
+  --invert: rgb(255, 255, 255);
+  --primary: rgba(0, 25, 112, var(--transparency));
+  --secondary: rgba(0, 34, 123, var(--transparency));
+  --trietary: rgba(0, 41, 132, var(--transparency));
   --icon-trans: 100%;
 }
 body {
@@ -91,7 +100,7 @@ body {
   .select{
     font-weight: bold;
   }
-  #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn {
+  #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn, #themeswitch, #textureswitch {
     float: right;
   }
   #bck_btn, #fwd_btn, #up_btn, #mn_btn{
@@ -112,9 +121,9 @@ body {
     margin-right: 5px;
   }
   .panelItemSubject{
-    width: 56px;
-    height: 56px;
     padding: 8px;
+    height: 56px;
+    width: 56px;
   }
   .panelItemSubject img{
     filter: invert(var(--icon-trans));
@@ -126,9 +135,6 @@ body {
     height: 35px;
     font-size: 13px;
     text-align: center;
-  }
-  #themeswitch, #textureswitch{
-    float: right;
   }
   .btmbtnText{
     padding: 8px;
@@ -144,23 +150,14 @@ body {
     width: -webkit-fill-available;
     height: 35px;
   }
-  .btmbtn:hover, .panelItem:hover{
-    background-color: var(--trietary);
-  }
   .item, .context-item{
     height: 35px;
     padding: 0px;
     display: flex;
   }
-  .context-item:hover{
-    background-color: var(--trietary);
-  }
-  .item img, .btmbtn img, .context-item img{
+  .item img, .btmbtn img, .context-item img, .topbtn img, .subject{
     filter: invert(var(--icon-trans));
     padding: 8.5px;
-  }
-  .subject{
-    filter: invert(var(--icon-trans));
   }
   .subject-holder{
     height: 96px;
@@ -172,18 +169,14 @@ body {
     width: 35px;
     -webkit-app-region: no-drag;
   }
-  .topbtn:hover, #pathbox:hover {
+  .topbtn:hover, #pathbox:hover, .context-item:hover, .btmbtn:hover, .panelItem:hover {
     background-color: var(--trietary);
-  }
-  .topbtn img{
-    padding: 8.5px;
-    filter: invert(var(--icon-trans));
   }
   #context.show{
     visibility: visible;
     position: absolute;
     background-color: #FFFFFF;
-    height: 35px;
+    height: 175px;
     width: 100px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   }
@@ -199,22 +192,19 @@ body {
   ::-webkit-scrollbar {
     width: 14px;
   }
-  
   /* Track */
   ::-webkit-scrollbar-track {
     background: var(--primary); 
   }
-   
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: var(--secondary); 
   }
-  
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: var(--trietary); 
   }
-
+  /* Corner */
   ::-webkit-scrollbar-corner{
     background: var(--primary)
   }
