@@ -9,7 +9,6 @@ var home = os.homedir().replace(/\\/g, '/');
 var pathString = home;
 var maxflag = 0;
 var thmflag = false;
-var texflag = true;
 panel.style.display = 'none'
 
 var body = document.body;
@@ -18,7 +17,6 @@ var cmenu = document.getElementById('context');
 
 function init(){
     applyTheme(false);
-    applyTexture(true);
     ipcRenderer.send('gth');
 }
 ipcRenderer.on('goto', (evt, loc) => {
@@ -44,27 +42,7 @@ function applyTheme(val){
     document.getElementById('themeswitch').children[0].children[0].src = args.src;
     document.getElementById('themeswitch').children[1].innerHTML = args.text;
 }
-function applyTexture(val){
-    var args = { 'src': '' , 'text': '' }
-    if (val !== null){
-        texflag = val;
-    }
-    if (texflag === false){
-        body.classList.remove('matte');
-        body.classList.add('vibrant');
-        args.src = '../img/mat.png';
-        args.text = 'Matte';
-    } else {
-        body.classList.remove('vibrant');
-        body.classList.add('matte');
-        args.src = '../img/vib.png';
-        args.text = 'Transparent';
-    }
-    document.getElementById('textureswitch').children[0].children[0].src = args.src;
-    document.getElementById('textureswitch').children[1].innerHTML = args.text;
-}
 document.getElementById('themeswitch').addEventListener('click', () => {applyTheme(!thmflag);});
-document.getElementById('textureswitch').addEventListener('click', () => {applyTexture(!texflag);});
 window.addEventListener("click", (evt) => {
     evt.preventDefault();
     if(cmenu.classList.contains('show')){
