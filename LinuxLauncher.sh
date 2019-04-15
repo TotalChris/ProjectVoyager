@@ -31,7 +31,8 @@ else
     echo "Project Voyager is not Installed"    
     echo "Press The [ENTER] Key To Install."
     read -p "$*"
-    echo "Installing....."         
+    echo "Installing....."
+    sudo apt install git         
     git clone https://github.com/TotalChris/ProjectVoyager.git
     sudo apt install npm
     cd ProjectVoyager
