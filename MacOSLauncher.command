@@ -38,11 +38,10 @@ else
     sudo npm install electron -g
     cd ProjectVoyager
     sudo npm config set unsafe-perm true
-	#Fixes Perms Issues
     sudo npm i
     echo "Thank You For Installing Voyager!"
     cd ~
-    cd ProjectVoyager #Start Voyager
+    cd ProjectVoyager
     sudo npm start
 fi
 
