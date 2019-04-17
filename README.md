@@ -28,7 +28,34 @@ Develop the world's most powerful and easiest-to-use file manager in a beautiful
 ![Light Mode](https://github.com/TotalChris/ProjectVoyager/blob/master/bin/scr/light.png?raw=true "Voyager in an eye-searing (but elegant) light mode")
 
 ***
-**Building From Source**
+### Building From Source
+***
+
+**Linux Installer(Beta) By Luis Vervaet**
+
+To Install Voyager on Linux, you need the following prerequisites installed:
+
+* wget
+
+Firstly download and run:
+https://drive.google.com/uc?export=download&id=19s1TXvEWpAYPoxExxhs9vOOmWCaNFzjt
+
+Then, run:
+
+```
+voyager
+```
+
+Afterwards, follow the required steps.
+
+Once installation is complete, re-run:
+
+```
+voyager
+```
+***
+
+**Non Linux Machines**
 
 To build the current version of Project Voyager, make sure you have these prerequisites installed via your platform's command line:
 
