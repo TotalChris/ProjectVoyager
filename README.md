@@ -31,9 +31,9 @@ Develop the world's most powerful and easiest-to-use file manager in a beautiful
 ### Building From Source
 ***
 
-**Linux Installer(Beta)**
+**Linux Installer(Beta) By Luis Vervaet**
 
-To Install Voyager on Linux you are going to need the following prerequisites installed:
+To Install Voyager on Linux, you need the following prerequisites installed:
 
 * wget
 
@@ -46,9 +46,9 @@ Then, run:
 voyager
 ```
 
-Then, follow the required steps.
+Afterwards, follow the required steps.
 
-Once Installation is complete re-run:
+Once installation is complete, re-run:
 
 ```
 voyager
