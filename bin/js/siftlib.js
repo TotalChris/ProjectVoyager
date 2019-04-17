@@ -87,12 +87,14 @@ function addItems(pathString, items, cutflag){
 }
 function dumpItems(pathString){
     Object.entries(clipboard).forEach((entry) => {
-        fs.copyFileSync(entry[1].path, pathString + path.parse(entry[1].path).base);
-        if(entry[1].cutflag === 1){
-            fs.unlink(entry[1].path, (err) => {
-                if (err) throw err;
-            });    
-        }
+        fs.copyFile(entry[1].path, pathString + path.parse(entry[1].path).base, fs.constants.COPYFILE_EXCL, (err) => {
+            if (err) throw err;
+            if(entry[1].cutflag === 1){
+                fs.unlink(entry[1].path, (err) => {
+                    if (err) throw err;
+                });    
+            }
+        });
     });
 }
 function deleteItems(pathString, items){
