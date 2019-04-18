@@ -123,10 +123,7 @@ function textFieldKeyHandler(event) {
 };
 
 function goTo(newPathString, navflag) {
-    if (pathString !== newPathString){
-        fs.unwatchFile(pathString);
-        console.log("No longer watching " + pathString);
-    }
+
     //error handle locally
     var stats = fs.stat(newPathString, '', (err, stats) => {
         if (err) {
@@ -153,10 +150,15 @@ function goTo(newPathString, navflag) {
         } else {
             //if everything is okay...
             render(siftlib.sift(newPathString, navflag));
-            fs.watch(newPathString, (evt, file) => {
-                goTo(pathString);
-            })
-            console.log("Watching " + newPathString);
+            if (pathString !== newPathString){ //if we have a new path rendered
+                fs.unwatchFile(pathString); //unwatch all the old paths
+                console.log("No longer watching " + pathString); //let the debugger know
+                fs.watch(newPathString, (evt, file) => { //watch the new directory
+                    goTo(pathString); //refresh if we detect anything
+                })
+                console.log("Watching " + newPathString); //let the user know where we're watching
+            }
+            
         }
     })
 };

@@ -83,6 +83,7 @@ function addItems(pathString, items, cutflag){
     items.forEach((item) => {
         cindex = cindex + 1;
         clipboard[cindex] = { 'path': pathString + item[1].attributes.elementname.value, 'cutflag': cutflag };
+        console.log(clipboard);
     })
 }
 function dumpItems(pathString){
@@ -97,13 +98,39 @@ function dumpItems(pathString){
         });
     });
 }
+/* function deleteItems(pathString, items){
+    items.forEach((item) => {
+        if(item[1].attributes.type.value === 'file'){
+            fs.unlink(pathString + item[1].attributes.elementname.value, (err) => {
+                if (err) throw err;
+            });
+        } else {
+            destroy(pathString + item[1].attributes.elementname.value);
+        }
+    });
+}; */
+
 function deleteItems(pathString, items){
     items.forEach((item) => {
-        fs.unlink(pathString + item[1].attributes.elementname.value, (err) => {
-            if (err) throw err;
-        });  
+        destroy(pathString + item[1].attributes.elementname.value)
     });
 };
+function destroy(itemPath){
+    if(fs.existsSync(itemPath) && fs.lstatSync(itemPath).isDirectory()) {
+        files = fs.readdirSync(itemPath)
+        Promise.all(files.map((file)=>{
+            var absPath = itemPath + "/" + file;
+            if(fs.lstatSync(absPath).isDirectory()){
+                destroy(absPath);
+            } else { 
+                fs.unlinkSync(absPath);
+            }
+        })).then(fs.rmdirSync(itemPath))
+    } else {
+        fs.unlinkSync(itemPath);
+    };
+};
+
 /*function setContentType(filePath){
     if (path.basename(filePath).indexOf('.') !== -1) {
         let extname = path.extname(filePath);
