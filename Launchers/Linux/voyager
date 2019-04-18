@@ -1,16 +1,47 @@
-#Launcher By: Luis Vervaet
-#Project Voyager By: Chris Yates
-echo "Project Voyager By: Total Chris"
-cd ~ #Cd's the Home Directory
-if [ -d "ProjectVoyager" ]
-#Checks If ProjectVoyager is Installed
+#Voyager by: Chris Yates
+#Launchers by: Luis Vervaet
+update() {
+  echo 'Updating...'
+  cd ~/ProjectVoyager
+  git pull https://github.com/TotalChris/ProjectVoyager.git;
+}
+
+uninstall() {
+  echo 'Are you sure you want to uninstall?'
+  echo 'Press [ENTER] to continue'
+  read -s -n 1 key
+  if [[ $key == "" ]]
+  then
+    echo "Uninstalling..."
+    cd ~
+    sudo rm -r ProjectVoyager
+    cd /usr/local/bin
+    sudo rm -- "$0"
+  fi ;
+}
+
+if declare -f "$1" > /dev/null
 then
+  # call arguments verbatim
+  "$@"
+else
+  # Show a helpful error
+  echo "Project Voyager By: Total Chris"
+  cd ~ #Cd's the Home Directory
+  if [ -d "ProjectVoyager" ]
+#Checks If ProjectVoyager is Installed
+  then
 #If Installed Run
     cd ProjectVoyager
     sudo npm start 
-else
+  else
 #If Not Install
     echo "Project Voyager is not Installed"    
     echo "Please re run the Installer found on the Repository page."
+  fi
+  
 fi
+
+
+
 
