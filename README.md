@@ -37,7 +37,7 @@ To Install Voyager on Linux, you need the following prerequisites installed:
 
 * wget
 
-Firstly download and run:
+Firstly download and bash run:
 https://drive.google.com/uc?export=download&id=19s1TXvEWpAYPoxExxhs9vOOmWCaNFzjt
 
 Then, run:
