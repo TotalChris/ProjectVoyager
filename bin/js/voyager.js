@@ -50,6 +50,12 @@ window.addEventListener("click", (evt) => {
         filelist.classList.add('hover-enabled');
     }
 });
+window.addEventListener('blur', (evt) => {
+    if(cmenu.classList.contains('show')){
+        cmenu.classList.remove('show');
+        filelist.classList.add('hover-enabled');
+    }
+})
 document.addEventListener('contextmenu', (evt) => {
     if (evt.target.parentElement.classList.contains('item') || evt.target.parentElement.parentElement.classList.contains('item')){ //if our target is an item,
         if(!evt.target.parentElement.parentElement.classList.contains('select') && !evt.target.parentElement.classList.contains('select')){  //and and the element isn't selected at the moment,
@@ -61,8 +67,8 @@ document.addEventListener('contextmenu', (evt) => {
         } //But, in the case of the element's state, if it was already selected, we can just do nothing because the user wants to select what's already been chosen
         cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString) //since we know we have items being selected, we can now populate the context menu
     }//now just draw and show it
-    cmenu.style.top = evt.clientY;
-    cmenu.style.left = evt.clientX;
+    cmenu.style.left = evt.clientX - (evt.clientX > (window.innerWidth - 100) ? 100 : 0);
+    cmenu.style.top = evt.clientY - (evt.clientY > (window.innerHeight - 175) ? 175 : 0);
     filelist.classList.remove('hover-enabled');
     cmenu.classList.add('show');
 })
