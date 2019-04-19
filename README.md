@@ -55,7 +55,7 @@ voyager
 ```
 ***
 
-**Non Linux Machines**
+**Non Linux Machines, or if the integrated installer fails**
 
 To build the current version of Project Voyager, make sure you have these prerequisites installed via your platform's command line:
 
@@ -99,7 +99,6 @@ You can exit the window at any time by normal means, including from the command 
 - Moving directories has not been implemented.
 - Moving or deleting large files will cause hang which may prompt the user to attempt killing the task. The solution is to rewrite the dumpItems() function to run in a seperate background process, or as an asynchronous process, and report to the user that the file is on its way.
 - Moving over a file which has a conflicting name with a pre-existing file will throw EBUSY. If the    file was cut, the result is worse... The file will be deleted from its previous location but not transfer to the new one.
-- The Context Menu box shadowing does not cover the full menu.
 - The top panel cannot be pinned and has no other functions besides theme toggling.
 - Theme settings are not saved in any way and always default to Dark Matte upon opening.
 
