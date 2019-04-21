@@ -31,31 +31,7 @@ Develop the world's most powerful and easiest-to-use file manager in a beautiful
 ### Building From Source
 ***
 
-**Linux Installer(Beta) By Luis Vervaet**
-
-To Install Voyager on Linux, you need the following prerequisites installed:
-
-* wget
-
-Firstly download and bash run:
-https://drive.google.com/uc?export=download&id=19s1TXvEWpAYPoxExxhs9vOOmWCaNFzjt
-
-Then, run:
-
-```
-voyager
-```
-
-Afterwards, follow the required steps.
-
-Once installation is complete, re-run:
-
-```
-voyager
-```
-***
-
-**Non Linux Machines, or if the integrated installer fails**
+**Manual installation (recommended)**
 
 To build the current version of Project Voyager, make sure you have these prerequisites installed via your platform's command line:
 
@@ -82,6 +58,8 @@ npm install --global --production windows-build-tools
 npm install windows-registry
 ```
 
+Alternatively, you can install Visual Studio's build tools with Microsoft's VS Installer. If you already have them, just install the windows-registry package. Note that installing windows-build-tools from npm will install an outdated and conflicting VS Installer as of this writing.
+
 After dependencies have been installed, run Voyager with:
 
 ```
@@ -89,6 +67,34 @@ npm start
 ```
 
 ***
+**Integrated dev installers (In development)**
+
+Scripts by Luis Vervaet
+
+To use the integrated installer, which is often preferred amongst newer developers and folks with low terminal skills, you'll need these prerequisites installed on your system:
+
+* wget
+
+First, download and run this script in a terminal:
+https://drive.google.com/uc?export=download&id=19s1TXvEWpAYPoxExxhs9vOOmWCaNFzjt
+
+Then, run:
+
+```
+voyager
+```
+
+Continue to follow the required steps.
+
+Once installation is complete, re-run:
+
+```
+voyager
+```
+
+The program should open immediately. If something fails, you can either retry installation by deleting the 'ProjectVoyager' folder, or file an issue on this GitHub.
+***
+
 **Usage**
 
 You can exit the window at any time by normal means, including from the command line itself (Ctrl + C), should the window freeze or the controls break.
