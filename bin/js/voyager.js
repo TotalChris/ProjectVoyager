@@ -74,10 +74,8 @@ document.addEventListener('contextmenu', (evt) => {
 })
 function renameItem(itemName){
     console.log(itemName);
-    document.getElementById(itemName).children[1].innerHTML = `<input type="text" id="renbox" onkeydown="textFieldKeyHandler(event)"></input>`;
-    box = document.getElementById('renbox');
-    box.value = element.id;
-    box.focus();
+    document.getElementById(itemName).children[1].innerHTML = `<input type="text" id="renbox" onkeydown="textFieldKeyHandler(event)" autofocus="autofocus"></input>`;
+    document.getElementById('renbox').value = document.getElementById('renbox').parentElement.parentElement.id;
 }
 function menuPanel(){
     var contentbox = document.getElementById('content-box-holder');
@@ -127,10 +125,18 @@ function render(args){
 }
 
 function textFieldKeyHandler(event) {
-    if (event.key === 'Enter') {
-        goTo(document.getElementById('pathbox').value, 1);
+    if (event.key === 'Enter' && event.target.id === 'pathbox') {
+        goTo(event.target.value, 1);
     } else {
-
+        if (event.target.id === 'renbox'){
+            if (event.key === 'Enter'){
+                fs.rename(pathString + event.target.parentElement.parentElement.id, pathString + event.target.value, (err) => {
+                    if (err) throw err;
+                })
+            } else {
+                //'tab for next' functionality placeholder
+            }
+        }
     }
 };
 
