@@ -72,7 +72,13 @@ document.addEventListener('contextmenu', (evt) => {
     filelist.classList.remove('hover-enabled');
     cmenu.classList.add('show');
 })
-
+function renameItem(itemName){
+    console.log(itemName);
+    document.getElementById(itemName).children[1].innerHTML = `<input type="text" id="renbox" onkeydown="textFieldKeyHandler(event)"></input>`;
+    box = document.getElementById('renbox');
+    box.value = element.id;
+    box.focus();
+}
 function menuPanel(){
     var contentbox = document.getElementById('content-box-holder');
     if (panel.style.display === 'none'){

@@ -81,15 +81,19 @@ body {
       width: 100%;
       display: flex;
   }
-  #pathbox{
-    font-size: 14px;
+  #pathbox, #renbox{
+    font-size: 16px;
     border: 0px;
     width: -webkit-fill-available;
     font-family: 'Roboto', sans-serif;
-    background-color: var(--primary);
     color: var(--invert);
-    padding: 8px;
     outline: none;
+  }
+  #pathbox{
+    background-color: var(--primary);
+  }
+  #renbox{
+    background-color: rgba(0, 0, 0, 0);
   }
   .itemlist tr:nth-child(odd){
     background-color: var(--secondary);
@@ -108,10 +112,10 @@ body {
   }
   .itemRow{
     width: -webkit-fill-available;
+    padding: 8px;
   }
   .itemNameText{
-    padding: 8px;
-    padding-left: 8px;
+    padding: 0px;
     white-space: nowrap;
     width: min-content;
   }

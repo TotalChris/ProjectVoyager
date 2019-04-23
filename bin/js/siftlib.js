@@ -41,18 +41,19 @@ function createDirContent(directoryName) {
     files = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
         var filesout = ``;
         var foldersout = ``;
-        foldersout += (`<tr><td type="folder" elementname="/" class="item" id="cd"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '/', 1))"><div class="itemNameText">/</div></div></td></tr>`)
+        foldersout += (`<tr><td type="folder" id="/" class="item" id="cd"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '/', 1))"><div class="itemNameText">/</div></div></td></tr>`)
         files.forEach((element) => {
                 if (element.isDirectory()) {
-                foldersout += (`<tr><td type="folder" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}/</div></div></td></tr>`)
+                foldersout += (`<tr><td type="folder" id="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}/</div></div></td></tr>`)
                 } else {
-                filesout += (`<tr><td type="file" elementname="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
+                filesout += (`<tr><td type="file" id="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
                 }
             })
         };
         return foldersout + filesout
     }
 function popCMenu(evt, pathString){
+    console.log(evt.target.parentElement.parentElement.id)
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     return `
     <table class="itemlist hover-enabled">
@@ -60,6 +61,7 @@ function popCMenu(evt, pathString){
         <tr><td class="context-item" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 1)"><img src="../img/cut.png"><div class="itemRow itemNameText">Cut</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 0)"><img src="../img/cop.png"><div class="itemRow itemNameText">Copy</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.dumpItems(pathString)"><img src="../img/pst.png"><div class="itemRow itemNameText">Paste</div></td></tr>
+        <tr><td class="context-item" onclick="renameItem('${evt.target.parentElement.parentElement.id}')"><img src="../img/edt.png"><div class="itemRow itemNameText">Rename</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.deleteItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/dlt.png"><div class="itemRow itemNameText">Delete</div></td></tr>
 
     </table>
@@ -68,9 +70,9 @@ function popCMenu(evt, pathString){
 function openItems(pathString, items){
     items.forEach((item) => {
         if (item[1].attributes.type.value === 'file'){
-            shell.openItem(pathString + item[1].attributes.elementname.value);
+            shell.openItem(pathString + item[1].id);
         } else {
-            newWindow(pathString + item[1].attributes.elementname.value, 1);
+            newWindow(pathString + item[1].id, 1);
         }
     });
 };
@@ -82,43 +84,67 @@ function addItems(pathString, items, cutflag){
     clipboard = []
     items.forEach((item) => {
         cindex = cindex + 1;
-        clipboard[cindex] = { 'path': pathString + item[1].attributes.elementname.value, 'cutflag': cutflag };
+        clipboard[cindex] = { 'path': pathString + item[1].id, 'cutflag': cutflag };
         console.log(clipboard);
     })
 }
 function dumpItems(pathString){
     Object.entries(clipboard).forEach((entry) => {
-        fs.copyFile(entry[1].path, pathString + path.parse(entry[1].path).base, fs.constants.COPYFILE_EXCL, (err) => {
-            if (err) throw err;
-            if(entry[1].cutflag === 1){
-                fs.unlink(entry[1].path, (err) => {
-                    if (err) throw err;
-                });    
-            }
-        });
+            copyItem(entry[1].path, pathString, () => {
+                if(entry[1].cutflag === 1){
+                    destroy(entry[1].path);   
+                }
+            });
     });
 }
 /* function deleteItems(pathString, items){
     items.forEach((item) => {
         if(item[1].attributes.type.value === 'file'){
-            fs.unlink(pathString + item[1].attributes.elementname.value, (err) => {
+            fs.unlink(pathString + item[1].id, (err) => {
                 if (err) throw err;
             });
         } else {
-            destroy(pathString + item[1].attributes.elementname.value);
+            destroy(pathString + item[1].id);
         }
     });
 }; */
 
 function deleteItems(pathString, items){
     items.forEach((item) => {
-        destroy(pathString + item[1].attributes.elementname.value)
+        destroy(pathString + item[1].id)
     });
 };
+
+function copyItem(source, target, callback) {
+    console.log(`Begin copy of ${source} to ${target}`)
+    var files = [];
+    //check if folder needs to be created or integrated
+    var targetFolder = path.join(target, path.basename(source));
+    if (!fs.existsSync(targetFolder) && fs.lstatSync(source).isDirectory()) {
+        fs.mkdirSync(targetFolder);
+    }
+    //copy
+    if (fs.lstatSync(source).isDirectory()) {
+        files = fs.readdirSync(source);
+        files.forEach((file) => {
+            var curSource = path.join(source, file);
+            if (fs.lstatSync(curSource).isDirectory()) {
+                copyItem(curSource, targetFolder, () => {});
+            } else {
+                console.log(`Copying ${curSource} to ${targetFolder + '/' + file}`)
+                fs.copyFileSync(curSource, targetFolder + '/' + file, fs.constants.COPYFILE_EXCL);
+            }
+        });
+    } else {
+        fs.copyFileSync(source, targetFolder, fs.constants.COPYFILE_EXCL);
+    }
+    callback();
+}
+
 function destroy(itemPath){
     if(fs.existsSync(itemPath) && fs.lstatSync(itemPath).isDirectory()) {
         files = fs.readdirSync(itemPath)
-        Promise.all(files.map((file)=>{
+        Promise.all(files.map((file) => {
             var absPath = itemPath + "/" + file;
             if(fs.lstatSync(absPath).isDirectory()){
                 destroy(absPath);
