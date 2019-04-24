@@ -47,10 +47,12 @@ window.addEventListener("click", (evt) => {
     evt.preventDefault();
     if(cmenu.classList.contains('show')){
         cmenu.classList.remove('show');
-        filelist.classList.add('hover-enabled');
+        if (!(evt.target.parentElement.id === 'ren')){
+            filelist.classList.add('hover-enabled');
+        }
     }
 });
-window.addEventListener('blur', (evt) => {
+window.addEventListener('blur', (evt, pressed) => {
     if(cmenu.classList.contains('show')){
         cmenu.classList.remove('show');
         filelist.classList.add('hover-enabled');
@@ -73,8 +75,13 @@ document.addEventListener('contextmenu', (evt) => {
     cmenu.classList.add('show');
 })
 function renameItem(itemName){
-    console.log(itemName);
+    deselectAll();
+    filelist.classList.remove('hover-enabled');
     document.getElementById(itemName).children[1].innerHTML = `<input type="text" id="renbox" onkeydown="textFieldKeyHandler(event)" autofocus="autofocus"></input>`;
+    document.getElementById('renbox').addEventListener('blur', (evt) => {
+        console.log(evt)
+        RenameInternalsTemp(evt)
+    })
     document.getElementById('renbox').value = document.getElementById('renbox').parentElement.parentElement.id;
 }
 function menuPanel(){
@@ -98,21 +105,23 @@ function selectItem(item, slflag){
     } else {
         //if the flag is 1, we want to deselect all other currently selected elements
         if (slflag === 1){
-            Object.entries(selected).forEach((entry) => {
-            entry[1].classList.remove('select');
-                if(entry[1].attributes.type.value === "folder"){
-                        entry[1].children[0].children[0].src='../img/fld.png';
-                }
-                if(entry[1].attributes.type.value === "file"){
-                        entry[1].children[0].children[0].src='../img/fil.png';
-                }
-            });
+            deselectAll();
         }
         item.children[0].children[0].src='../img/chk1.png';
         item.classList.add('select');
     }
 }
-
+function deselectAll(){
+    Object.entries(selected).forEach((entry) => {
+        entry[1].classList.remove('select');
+            if(entry[1].attributes.type.value === "folder"){
+                    entry[1].children[0].children[0].src='../img/fld.png';
+            }
+            if(entry[1].attributes.type.value === "file"){
+                    entry[1].children[0].children[0].src='../img/fil.png';
+            }
+        });
+}
 function render(args){
     if (args.type === 'folder'){
         document.getElementById('filelist').innerHTML = args.pagedata;
@@ -125,20 +134,33 @@ function render(args){
 }
 
 function textFieldKeyHandler(event) {
+    console.log(event.key)
+    console.log(event.target.id)
     if (event.key === 'Enter' && event.target.id === 'pathbox') {
         goTo(event.target.value, 1);
     } else {
         if (event.target.id === 'renbox'){
             if (event.key === 'Enter'){
-                fs.rename(pathString + event.target.parentElement.parentElement.id, pathString + event.target.value, (err) => {
-                    if (err) throw err;
-                })
+                RenameInternalsTemp(event);
             } else {
                 //'tab for next' functionality placeholder
             }
         }
     }
 };
+
+function RenameInternalsTemp(event){
+    if(!(event.target.parentElement.parentElement.id === event.target.value)){
+        console.log('New file name given')
+        fs.rename(pathString + event.target.parentElement.parentElement.id, pathString + event.target.value, (err) => {
+            if (err) throw err;
+        })
+    } else {
+        console.log('Old file name matches new one!')
+    }
+    event.target.parentElement.innerHTML = event.target.value;
+    filelist.classList.add('hover-enabled');
+}
 
 function goTo(newPathString, navflag) {
 

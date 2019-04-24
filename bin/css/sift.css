@@ -94,6 +94,7 @@ body {
   }
   #renbox{
     background-color: rgba(0, 0, 0, 0);
+    padding: 0px;
   }
   .itemlist tr:nth-child(odd){
     background-color: var(--secondary);
@@ -118,6 +119,7 @@ body {
     padding: 0px;
     white-space: nowrap;
     width: min-content;
+    margin: 0px;
   }
   .panelItem{
     width: 70px;
