@@ -55,7 +55,6 @@ function createDirContent(directoryName) {
 function popCMenu(evt, pathString){
     console.log(evt.target.parentElement.parentElement.id)
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
-    if evt.target
     return `
     <table class="itemlist hover-enabled">
         <tr><td class="context-item" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow">Open</div></td></tr>
@@ -120,7 +119,13 @@ function copyItem(source, target, callback) {
     console.log(`Begin copy of ${source} to ${target}`)
     var files = [];
     //check if folder needs to be created or integrated
+    console.log('source: '+path.basename(path.normalize(source + '/..')))
+    console.log('target: '+path.basename(target))
     var targetFolder = path.join(target, path.basename(source));
+    while (fs.existsSync(targetFolder)){
+        targetFolder += (fs.existsSync(path.join(target, path.basename(source))) && path.basename(target) === path.basename(path.normalize(source + '/..')) ? ' - Copy' : '') + (fs.existsSync(path.join(target, path.basename(source))) && path.basename(target) !== path.basename(path.normalize(source + '/..')) ? ' - from ' + path.basename(path.normalize(source + '/..')) : '' );
+        console.log(targetFolder)
+    }
     if (!fs.existsSync(targetFolder) && fs.lstatSync(source).isDirectory()) {
         fs.mkdirSync(targetFolder);
     }
