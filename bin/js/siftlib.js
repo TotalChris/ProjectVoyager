@@ -53,7 +53,17 @@ function createDirContent(directoryName) {
         return foldersout + filesout
     }
 function popCMenu(evt, pathString){
-    console.log(evt.target.parentElement.parentElement.id)
+    if (document.getElementById('cd').classList.contains('select')){
+        return `
+        <table class="itemlist hover-enabled">
+            <tr><td class="context-item" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow">New Window</div></td></tr>
+            <tr><td class="context-item disable" onclick=""><img src="../img/cut.png"><div class="itemRow">Cut</div></td></tr>
+            <tr><td class="context-item disable" onclick=""><img src="../img/cop.png"><div class="itemRow">Copy</div></td></tr>
+            <tr><td class="context-item" onclick="siftlib.dumpItems(pathString)"><img src="../img/pst.png"><div class="itemRow">Paste</div></td></tr>
+            <tr><td class="context-item disable" onclick="" id="ren"><img src="../img/edt.png"><div class="itemRow">Rename</div></td></tr>
+            <tr><td class="context-item disable" onclick=""><img src="../img/dlt.png"><div class="itemRow ">Delete</div></td></tr>
+        </table>`
+    }
     //USE THE STYLING OF THE FILE TABLE FOR THIS FUNCTION
     return `
     <table class="itemlist hover-enabled">
