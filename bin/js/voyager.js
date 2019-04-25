@@ -127,6 +127,7 @@ function render(args){
         document.getElementById('filelist').innerHTML = args.pagedata;
         pathString = args.pathString;
         document.getElementById('pathbox').value = args.pathString;
+        document.getElementById('cd').scrollIntoView();
     } else {
         console.log(args.pathString);
         shell.openItem(args.pathString);
@@ -158,7 +159,7 @@ function RenameInternalsTemp(event){
     } else {
         console.log('Old file name matches new one!')
     }
-    event.target.parentElement.innerHTML = event.target.value;
+    event.target.parentElement.innerHTML = `<div class="itemNameText">${event.target.value}</div>`;
     filelist.classList.add('hover-enabled');
 }
 
