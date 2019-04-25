@@ -31,7 +31,7 @@ Develop the world's most powerful and easiest-to-use file manager in a beautiful
 ### Building From Source
 ***
 
-**Manual installation (recommended)**
+**Manual installation**
 
 To build the current version of Project Voyager, make sure you have these prerequisites installed via your platform's command line:
 
@@ -67,34 +67,6 @@ npm start
 ```
 
 ***
-**Integrated dev installers (In development)**
-
-Scripts by Luis Vervaet
-
-To use the integrated installer, which is often preferred amongst newer developers and folks with low terminal skills, you'll need these prerequisites installed on your system:
-
-* wget
-
-First, download and run this script in a terminal:
-https://drive.google.com/uc?export=download&id=19s1TXvEWpAYPoxExxhs9vOOmWCaNFzjt
-
-Then, run:
-
-```
-voyager
-```
-
-Continue to follow the required steps.
-
-Once installation is complete, re-run:
-
-```
-voyager
-```
-
-The program should open immediately. If something fails, you can either retry installation by deleting the 'ProjectVoyager' folder, or file an issue on this GitHub.
-***
-
 **Usage**
 
 You can exit the window at any time by normal means, including from the command line itself (Ctrl + C), should the window freeze or the controls break.
