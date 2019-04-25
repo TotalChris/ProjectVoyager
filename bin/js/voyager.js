@@ -42,7 +42,6 @@ function applyTheme(val){
     document.getElementById('themeswitch').children[0].children[0].src = args.src;
     document.getElementById('themeswitch').children[1].innerHTML = args.text;
 }
-document.getElementById('themeswitch').addEventListener('click', () => {applyTheme(!thmflag);});
 window.addEventListener("click", (evt) => {
     evt.preventDefault();
     if(cmenu.classList.contains('show')){
@@ -56,6 +55,7 @@ window.addEventListener('blur', (evt, pressed) => {
     if(cmenu.classList.contains('show')){
         cmenu.classList.remove('show');
         filelist.classList.add('hover-enabled');
+        siftlib.clearPMenu();
     }
 })
 document.addEventListener('contextmenu', (evt) => {
@@ -67,7 +67,7 @@ document.addEventListener('contextmenu', (evt) => {
                 selectItem(document.getElementById('cd'), 1) //select the cd element, representing the entire folder, and clear the others.
             }
         } //But, in the case of the element's state, if it was already selected, we can just do nothing because the user wants to select what's already been chosen
-        cmenu.children[0].innerHTML = siftlib.popCMenu(evt, pathString) //since we know we have items being selected, we can now populate the context menu
+        cmenu.children[0].innerHTML = siftlib.popCMenu(evt) //since we know we have items being selected, we can now populate the context menu
     }//now just draw and show it
     cmenu.style.left = evt.clientX - (evt.clientX > (window.innerWidth - 100) ? 100 : 0);
     cmenu.style.top = evt.clientY - (evt.clientY > (window.innerHeight - 175) ? 175 : 0);
@@ -109,6 +109,13 @@ function selectItem(item, slflag){
         }
         item.children[0].children[0].src='../img/chk1.png';
         item.classList.add('select');
+    }
+    if (document.getElementsByClassName('select').length !== 0){
+        iscd = document.getElementsByClassName('select')[0].id === 'cd' ? true : false;
+        console.log(iscd)
+        document.getElementById('menupanel').innerHTML = siftlib.popPMenu(iscd);
+    } else {
+        siftlib.clearPMenu();
     }
 }
 function deselectAll(){

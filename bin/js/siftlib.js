@@ -52,7 +52,7 @@ function createDirContent(directoryName) {
         };
         return foldersout + filesout
     }
-function popCMenu(evt, pathString){
+function popCMenu(evt){
     if (document.getElementById('cd').classList.contains('select')){
         return `
         <table class="itemlist hover-enabled">
@@ -76,6 +76,48 @@ function popCMenu(evt, pathString){
 
     </table>
     `
+}
+function popPMenu(iscd){
+    if (iscd) {
+        return `
+        <div id="nWPanelButton" class="panelItem" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))">
+            <div class="panelItemSubject"><img src="../img/opn96.png"></div>
+            <div class="panelItemText">New Window</div>
+        </div>
+        <div id="pastePanelButton" class="panelItem" onclick="siftlib.dumpItems(pathString)">
+            <div class="panelItemSubject"><img src="../img/pst96.png"></div>
+            <div class="panelItemText">Paste</div>
+        </div>
+        ${document.getElementById('themeswitch').outerHTML}
+        `
+    } else {
+        return `
+        <div id="nWPanelButton" class="panelItem" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))">
+            <div class="panelItemSubject"><img src="../img/opn96.png"></div>
+            <div class="panelItemText">Open</div>
+        </div>
+        <div id="cutPanelButton" class="panelItem" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 1)">
+            <div class="panelItemSubject"><img src="../img/cut96.png"></div>
+            <div class="panelItemText">Cut</div>
+        </div>
+        <div id="copyPanelButton" class="panelItem" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 0)">
+            <div class="panelItemSubject"><img src="../img/cop96.png"></div>
+            <div class="panelItemText">Copy</div>
+        </div>
+        <div id="pastePanelButton" class="panelItem" onclick="siftlib.dumpItems(pathString)">
+            <div class="panelItemSubject"><img src="../img/pst96.png"></div>
+            <div class="panelItemText">Paste</div>
+        </div>
+        <div id="delPanelButton" class="panelItem" onclick="siftlib.deleteItems(pathString, Object.entries(document.getElementsByClassName('select')))">
+            <div class="panelItemSubject"><img src="../img/del96.png"></div>
+            <div class="panelItemText">Delete</div>
+        </div>
+        ${document.getElementById('themeswitch').outerHTML}
+        `
+    }
+}
+function clearPMenu(){
+    document.getElementById('menupanel').innerHTML = document.getElementById('themeswitch').outerHTML;
 }
 function openItems(pathString, items){
     items.forEach((item) => {
@@ -199,4 +241,4 @@ function destroy(itemPath){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, addItems, hist, dumpItems, deleteItems }
+module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, addItems, hist, dumpItems, deleteItems, popPMenu, clearPMenu }

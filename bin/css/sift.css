@@ -121,7 +121,7 @@ body {
   #min_btn, #rsz_btn, #cls_btn, #go_btn, #rf_btn, #hm_btn, #themeswitch {
     float: right;
   }
-  #bck_btn, #fwd_btn, #up_btn, #mn_btn{
+  #bck_btn, #fwd_btn, #up_btn, #mn_btn, #nWPanelButton, #cutPanelButton, #copyPanelButton, #delPanelButton, #pastePanelButton{
     float: left;
   }
   .itemRow{
