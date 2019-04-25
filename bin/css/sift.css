@@ -9,33 +9,39 @@
   --constant-primary: 255;
   --invert: rgba(0, 0, 0, var(--transparency));
   --primary: rgba(255, 255, 255, var(--transparency));
-  --invert-dis: rgba(76, 76, 76, var(--transparency));
+  --invert-dis: rgba(127, 127, 127, var(--transparency));
   --secondary: rgba(242, 242, 242, var(--transparency));
   --trietary: rgba(208, 208, 208, var(--transparency));
   --icon-trans: 0%;
-  --icon-trans-dis: 30%;
+  --icon-trans-dis: 50%;
+  --shadow: rgba(0, 0, 0, .25);
+  --shadow-fade: rgba(0, 0, 0, .22);
 }
 .dark{
   --constant-invert: 255;
   --constant-primary: 0;
   --invert: rgba(255, 255, 255, var(--transparency));
   --primary: rgba(0, 0, 0, var(--transparency));
-  --invert-dis: rgba(178, 178, 178, var(--transparency));
+  --invert-dis: rgba(127, 127, 127, var(--transparency));
   --secondary: rgba(13, 13, 13, var(--transparency));
   --trietary: rgba(32, 32, 32, var(--transparency));
   --icon-trans: 100%;
-  --icon-trans-dis: 70%;
+  --icon-trans-dis: 50%;
+  --shadow: rgba(0, 0, 0, .25);
+  --shadow-fade: rgba(0, 0, 0, .22);
 }
 .deep{
   --constant-invert: 255;
   --constant-primary: 0;
   --invert: rgba(255, 255, 255, var(--transparency));
   --primary: rgba(0, 25, 112, var(--transparency));
-  --invert-dis: rgba(178, 178, 178, var(--transparency));
+  --invert-dis: rgba(127, 127, 127, var(--transparency));
   --secondary: rgba(0, 34, 123, var(--transparency));
   --trietary: rgba(0, 41, 132, var(--transparency));
   --icon-trans: 100%;
-  --icon-trans-dis: 70%;
+  --icon-trans-dis: 50%;
+  --shadow: rgba(0, 0, 0, .25);
+  --shadow-fade: rgba(0, 0, 0, .22);
 }
 body {
     margin: 0px;
@@ -197,7 +203,7 @@ body {
     background-color:  var(--primary);
     height: 210px;
     width: 150px;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0px 10px 10px var(--shadow), 10px 5px 10px var(--shadow-fade);
   }
   #context{
     visibility: hidden;

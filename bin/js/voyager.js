@@ -112,8 +112,7 @@ function selectItem(item, slflag){
     }
     if (document.getElementsByClassName('select').length !== 0){
         iscd = document.getElementsByClassName('select')[0].id === 'cd' ? true : false;
-        console.log(iscd)
-        document.getElementById('menupanel').innerHTML = siftlib.popPMenu(iscd);
+        siftlib.popPMenu(iscd);
     } else {
         siftlib.clearPMenu();
     }
@@ -173,6 +172,7 @@ function RenameInternalsTemp(event){
 function goTo(newPathString, navflag) {
 
     //error handle locally
+    siftlib.clearPMenu();
     var stats = fs.stat(newPathString, '', (err, stats) => {
         if (err) {
             console.log(err.code); 

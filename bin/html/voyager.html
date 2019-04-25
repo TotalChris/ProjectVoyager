@@ -20,6 +20,26 @@
                 <div id="cls_btn" class="topbtn" onclick="win.close()"><img src="../img/cls.png"/></div>
             </div>
             <div id="menupanel">
+                    <div id="nWPanelButton" class="panelItem" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))">
+                            <div class="panelItemSubject"><img src="../img/opn96.png"></div>
+                            <div class="panelItemText">Open</div>
+                        </div>
+                        <div id="cutPanelButton" class="panelItem" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 1)">
+                            <div class="panelItemSubject"><img src="../img/cut96.png"></div>
+                            <div class="panelItemText">Cut</div>
+                        </div>
+                        <div id="copyPanelButton" class="panelItem" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 0)">
+                            <div class="panelItemSubject"><img src="../img/cop96.png"></div>
+                            <div class="panelItemText">Copy</div>
+                        </div>
+                        <div id="pastePanelButton" class="panelItem" onclick="siftlib.dumpItems(pathString)">
+                            <div class="panelItemSubject"><img src="../img/pst96.png"></div>
+                            <div class="panelItemText">Paste</div>
+                        </div>
+                        <div id="delPanelButton" class="panelItem" onclick="siftlib.deleteItems(pathString, Object.entries(document.getElementsByClassName('select')))">
+                            <div class="panelItemSubject"><img src="../img/del96.png"></div>
+                            <div class="panelItemText">Delete</div>
+                        </div>
                 <div id="themeswitch" class="panelItem" onclick="applyTheme(!thmflag)">
                     <div class="panelItemSubject"><img src=""></div>
                     <div class="panelItemText"></div>

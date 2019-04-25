@@ -79,45 +79,28 @@ function popCMenu(evt){
 }
 function popPMenu(iscd){
     if (iscd) {
-        return `
-        <div id="nWPanelButton" class="panelItem" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))">
-            <div class="panelItemSubject"><img src="../img/opn96.png"></div>
-            <div class="panelItemText">New Window</div>
-        </div>
-        <div id="pastePanelButton" class="panelItem" onclick="siftlib.dumpItems(pathString)">
-            <div class="panelItemSubject"><img src="../img/pst96.png"></div>
-            <div class="panelItemText">Paste</div>
-        </div>
-        ${document.getElementById('themeswitch').outerHTML}
-        `
+        document.getElementById('nWPanelButton').classList.remove('disable');
+        document.getElementById('nWPanelButton').children[1].innerHTML = 'New Window';
+        document.getElementById('cutPanelButton').classList.add('disable');
+        document.getElementById('copyPanelButton').classList.add('disable');
+        document.getElementById('pastePanelButton').classList.remove('disable');
+        document.getElementById('delPanelButton').classList.add('disable');
     } else {
-        return `
-        <div id="nWPanelButton" class="panelItem" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))">
-            <div class="panelItemSubject"><img src="../img/opn96.png"></div>
-            <div class="panelItemText">Open</div>
-        </div>
-        <div id="cutPanelButton" class="panelItem" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 1)">
-            <div class="panelItemSubject"><img src="../img/cut96.png"></div>
-            <div class="panelItemText">Cut</div>
-        </div>
-        <div id="copyPanelButton" class="panelItem" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 0)">
-            <div class="panelItemSubject"><img src="../img/cop96.png"></div>
-            <div class="panelItemText">Copy</div>
-        </div>
-        <div id="pastePanelButton" class="panelItem" onclick="siftlib.dumpItems(pathString)">
-            <div class="panelItemSubject"><img src="../img/pst96.png"></div>
-            <div class="panelItemText">Paste</div>
-        </div>
-        <div id="delPanelButton" class="panelItem" onclick="siftlib.deleteItems(pathString, Object.entries(document.getElementsByClassName('select')))">
-            <div class="panelItemSubject"><img src="../img/del96.png"></div>
-            <div class="panelItemText">Delete</div>
-        </div>
-        ${document.getElementById('themeswitch').outerHTML}
-        `
+        document.getElementById('nWPanelButton').classList.remove('disable');
+        document.getElementById('nWPanelButton').children[1].innerHTML = 'Open';
+        document.getElementById('cutPanelButton').classList.remove('disable');
+        document.getElementById('copyPanelButton').classList.remove('disable');
+        document.getElementById('pastePanelButton').classList.remove('disable');
+        document.getElementById('delPanelButton').classList.remove('disable');
     }
 }
 function clearPMenu(){
-    document.getElementById('menupanel').innerHTML = document.getElementById('themeswitch').outerHTML;
+    document.getElementById('nWPanelButton').classList.add('disable');
+    document.getElementById('nWPanelButton').children[1].innerHTML = 'Open';
+    document.getElementById('cutPanelButton').classList.add('disable');
+    document.getElementById('copyPanelButton').classList.add('disable');
+    document.getElementById('pastePanelButton').classList.add('disable');
+    document.getElementById('delPanelButton').classList.add('disable');
 }
 function openItems(pathString, items){
     items.forEach((item) => {
