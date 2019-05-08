@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" href="../css/sift.css"/>
     </head>
-    <body onload="init()" class='matte'>
+    <body onload="init()" class='matte light'>
         <div id="context">
             <table id="context-table" class="itemlist hover-enabled">
             </table>
@@ -40,7 +40,7 @@
                             <div class="panelItemSubject"><img src="../img/del96.png"></div>
                             <div class="panelItemText">Delete</div>
                         </div>
-                <div id="themeswitch" class="panelItem" onclick="applyTheme(!thmflag)">
+                <div id="themeswitch" class="panelItem" onclick="setTheme()">
                     <div class="panelItemSubject"><img src=""></div>
                     <div class="panelItemText"></div>
                 </div>
@@ -60,5 +60,6 @@
                 </table>
             </div>
         <script src="../js/voyager.js"></script>
+        <script src="../js/v2.js"></script>
     </body>
 </html>
