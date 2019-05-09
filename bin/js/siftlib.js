@@ -52,8 +52,8 @@ function createDirContent(directoryName) {
         };
         return foldersout + filesout
     }
-function popCMenu(evt){
-    if (document.getElementById('cd').classList.contains('select')){
+function popCMenu(iscd){
+    if (iscd){
         return `
         <table class="itemlist hover-enabled">
             <tr><td class="context-item" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow">New Window</div></td></tr>
@@ -73,7 +73,6 @@ function popCMenu(evt){
         <tr><td class="context-item" onclick="siftlib.dumpItems(pathString)"><img src="../img/pst.png"><div class="itemRow">Paste</div></td></tr>
         <tr><td class="context-item" onclick="renameItem('${evt.target.parentElement.parentElement.id}')" id="ren"><img src="../img/edt.png"><div class="itemRow">Rename</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.deleteItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/dlt.png"><div class="itemRow ">Delete</div></td></tr>
-
     </table>
     `
 }
@@ -95,12 +94,7 @@ function popPMenu(iscd){
     }
 }
 function clearPMenu(){
-    document.getElementById('nWPanelButton').classList.add('disable');
-    document.getElementById('nWPanelButton').children[1].innerHTML = 'Open';
-    document.getElementById('cutPanelButton').classList.add('disable');
-    document.getElementById('copyPanelButton').classList.add('disable');
-    document.getElementById('pastePanelButton').classList.add('disable');
-    document.getElementById('delPanelButton').classList.add('disable');
+    popPMenu(true);
 }
 function openItems(pathString, items){
     items.forEach((item) => {

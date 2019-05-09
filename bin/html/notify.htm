@@ -19,15 +19,12 @@
         <div class="btmbtn" onclick="nwin.close(); nwin = null;"><img src="../img/ok.png"/><div class="btmbtnText">Ok</div></div>
             <script>
                 const electron = require('electron')
+                window.$ = window.jquery = require('jquery');
                 let nwin = require('electron').remote.getCurrentWindow();
                 nwin.title = 'Error';
-                nwin.on('blur', (evt) => {
-                    nwin.close();
-                    nwin = null;
-                })
-                electron.ipcRenderer.send('gte');
                 electron.ipcRenderer.on('erm', (evt, alertText) => {
-                    document.getElementById('warn-holder').innerHTML = alertText;
+                    console.log(alertText);
+                    $('#warn-holder').html(alertText);
                 });
             </script>
 
