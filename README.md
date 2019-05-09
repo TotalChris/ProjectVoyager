@@ -2,10 +2,6 @@
 A new and universal file manager built for the way you work, on any platform. (Win, Mac, Linux)
 
 ***
-**Sticky Note: (4/14 - 5/1)**
-The next two or so weeks of Voyager's development are going into bug squashing and prepping for a May 1st release. Any issues must be filed before the 27th. The AP Computer Science deadline is the 1st for my school. Thanks for your consideration. ✌😁
-
-***
 **So what does it do?**
 
 Voyager can navigate through your local filesystem and open any file in its default program. It can use an internal clipboard to cut, copy and paste files to new locations. You can also remove files. The entire program works the same exact way on any platform, as long as all dependencies are met and the core Node.js APIs work. The UI is stylish and the engine is designed to be themed. Known platform inconsistencies are listed in the 'Known Issues' section of this article.
@@ -75,7 +71,6 @@ You can exit the window at any time by normal means, including from the command 
 **Known Issues**
 
 - Moving or deleting large files will cause hang which may prompt the user to attempt killing the task. The solution is to rewrite the dumpItems() function to run in a seperate background process, or as an asynchronous process, and report to the user that the file is on its way.
-- The top panel has no other functions besides theme toggling.
 - Theme settings are not saved in any way and always default to Dark Matte upon opening.
 
 ***
