@@ -4,8 +4,6 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const child_proc = require('child_process');
-var hindex = -1;
-var hist = [];
 var cindex = -1;
 var clipboard = [];
 
@@ -13,50 +11,31 @@ function sift(pathString, navflag) {
     //navflag is set to 1 if moving using the filelist. This will log history and overwrite the previous entries
     //if set to 0, history will be ignored. Usuall this is used for library functions that modify the history directly.
     if (fs.statSync(pathString).isFile()) {
-        return { 'pathString': pathString, 'pagedata': '', 'type': 'file' };
+        return { 'pathString': pathString, 'type': 'file' };
     } else {
         if ((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'}; //correct path name if need-be
-        if (navflag == 1){
-            if (((hindex + 1) !== hist.length) && (hist[hindex] !== pathString)){hist.length = hindex + 1}
-            hindex++
-            hist[hindex] = pathString;
-        }
-        return { 'pathString': pathString, 'pagedata': createDirContent(pathString), 'type': 'folder' };
+        return { 'pathString': pathString, 'type': 'folder' };
     }
 }
-function goBack(){
-    if (hindex > 0){
-        hindex--
-    }
-        return hist[hindex]
-}
-function goForth(){
-    if((hindex + 1) < hist.length){
-        hindex++
-    }
-        return hist[hindex]
-}
+
 function createDirContent(directoryName) { 
-    if(directoryName !== '/favicon.ico'){
     files = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
-        var filesout = ``;
-        var foldersout = ``;
-        foldersout += (`<tr><td type="folder" id="cd" class="item" id="cd"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="render(siftlib.sift(pathString + '/', 1))"><div class="itemNameText">/</div></div></td></tr>`)
+        let filesout = ``;
+        let foldersout = ``;
         files.forEach((element) => {
                 if (element.isDirectory()) {
                 foldersout += (`<tr><td type="folder" id="${(element.name.indexOf('.') === 0 ? '\\' : '') + element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
                 } else {
                 filesout += (`<tr><td type="file" id="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
                 }
-            })
-        };
+        })
         return foldersout + filesout
-    }
-function popCMenu(iscd){
+}
+function popCMenu(evt, iscd){
     if (iscd){
         return `
         <table class="itemlist hover-enabled">
-            <tr><td class="context-item" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow">New Window</div></td></tr>
+            <tr><td class="context-item" onclick="siftlib.newWindow(pathString)"><img src="../img/opn.png"><div class="itemRow">New Window</div></td></tr>
             <tr><td class="context-item disable" onclick=""><img src="../img/cut.png"><div class="itemRow">Cut</div></td></tr>
             <tr><td class="context-item disable" onclick=""><img src="../img/cop.png"><div class="itemRow">Copy</div></td></tr>
             <tr><td class="context-item" onclick="siftlib.dumpItems(pathString)"><img src="../img/pst.png"><div class="itemRow">Paste</div></td></tr>
@@ -70,7 +49,7 @@ function popCMenu(iscd){
         <tr><td class="context-item" onclick="siftlib.openItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/opn.png"><div class="itemRow">Open</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 1)"><img src="../img/cut.png"><div class="itemRow">Cut</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.addItems(pathString, Object.entries(document.getElementsByClassName('select')), 0)"><img src="../img/cop.png"><div class="itemRow">Copy</div></td></tr>
-        <tr><td class="context-item" onclick="siftlib.dumpItems(pathString)"><img src="../img/pst.png"><div class="itemRow">Paste</div></td></tr>
+        <tr><td class="context-item" onclick="siftlib.dumpItems(pathString + (${evt.target.parentElement.parentElement.attributes.type.value === 'folder'} ? '${evt.target.parentElement.parentElement.id}' : ''))"><img src="../img/pst.png"><div class="itemRow">Paste</div></td></tr>
         <tr><td class="context-item" onclick="renameItem('${evt.target.parentElement.parentElement.id}')" id="ren"><img src="../img/edt.png"><div class="itemRow">Rename</div></td></tr>
         <tr><td class="context-item" onclick="siftlib.deleteItems(pathString, Object.entries(document.getElementsByClassName('select')))"><img src="../img/dlt.png"><div class="itemRow ">Delete</div></td></tr>
     </table>
@@ -114,7 +93,6 @@ function addItems(pathString, items, cutflag){
     items.forEach((item) => {
         cindex = cindex + 1;
         clipboard[cindex] = { 'path': pathString + item[1].id, 'cutflag': cutflag };
-        console.log(clipboard);
     })
 }
 function dumpItems(pathString){
@@ -218,4 +196,4 @@ function destroy(itemPath){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, goBack, goForth, popCMenu, openItems, addItems, hist, dumpItems, deleteItems, popPMenu, clearPMenu }
+module.exports = { createDirContent, sift, popCMenu, openItems, addItems, dumpItems, deleteItems, popPMenu, clearPMenu, newWindow }

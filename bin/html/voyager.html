@@ -47,8 +47,8 @@
             </div>
         </div>
         <div id="pathboxcontainer">
-        <div id="bck_btn" class="topbtn" onclick="goTo(siftlib.goBack(), 0)"><img src="../img/bck.png"/></div>
-        <div id="fwd_btn" class="topbtn" onclick="goTo(siftlib.goForth(), 0)"><img src="../img/fwd.png"/></div>
+        <div id="bck_btn" class="topbtn" onclick="goTo(goBack(), 0)"><img src="../img/bck.png"/></div>
+        <div id="fwd_btn" class="topbtn" onclick="goTo(goForth(), 0)"><img src="../img/fwd.png"/></div>
         <div id="up_btn" class="topbtn" onclick="goTo(path.parse(pathString).dir, 1)"><img src="../img/up.png"/></div>
         <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
         <div id="hm_btn" class="topbtn" onclick="goTo(home, 1)"><img src="../img/hm.png"/></div>

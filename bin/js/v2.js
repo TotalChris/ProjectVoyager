@@ -8,12 +8,14 @@ const fs = require('fs');
 var home = os.homedir().replace(/\\/g, '/');
 const remote = require('electron').remote
 var pathString = home;
+var hindex = -1;
+var hist = [];
 
 //Theme change handler function and init
 function init(){
     $('#menupanel').css('style', 'none')
     setTheme();
-    goTo((remote.process.argv[2] != null ? remote.process.argv[2] : home));
+    goTo((remote.process.argv[2] != null ? remote.process.argv[2] : home), 1);
 }
 function setTheme(){
     $('body').toggleClass('dark', 'light')
@@ -49,15 +51,17 @@ function resizeWin(){
 $(document).contextmenu((evt) => {
     closestItems = $(evt.target).closest('td.item');
     if (closestItems.length !== 0){ //if our target is an item,
+        iscd = false;
         listItem = closestItems[0];
         if(!$(listItem).hasClass('select')){  //and and the element isn't selected at the moment,
             if($(evt.target).hasClass('itemNameText')){ //and if the text of the element was right-clicked,
                 selectItem(listItem, 1);  //go ahead and select it, and clear out the other selected elements.
             } else { //But, if the click happened outside the item's text,
-                selectItem(document.getElementById('cd'), 1) //select the cd element, representing the entire folder, and clear the others.
+                deselectAll();
+                iscd = true;
             }
         } //But, in the case of the element's state, if it was already selected, we can just do nothing because the user wants to select what's already been chosen
-        $('#context-table').html(siftlib.popCMenu(iscd)) //since we know we have items being selected, we can now populate/draw the context menu
+        $('#context-table').html(siftlib.popCMenu(evt, iscd)) //since we know we have items being selected, we can now populate/draw the context menu
     }//now just position and show it
     $('#context').css('left', evt.clientX - (evt.clientX > (window.innerWidth - 150) ? 150 : 0));
     $('#context').css('top', evt.clientY - (evt.clientY > (window.innerWidth - 210) ? 210 : 0));
@@ -86,14 +90,19 @@ function resetContext(evt){
 
 function deselectAll(){
     l = $('.select').length;
-    Object.entries($('.select')).forEach((entry, i) => {
-        if (i < l){
-            $(entry).removeClass('select');
-            $(entry).children('div.topbtn').children('img').attr('src', `../img/${entry[1].attributes.type.value === "file" ? 'fil' : 'fld'}.png`);
-        } else {
-            return
-        }
-    });
+    if (l === 0){
+        siftlib.popPMenu(true);
+        return;
+    } else {
+        Object.entries($('.select')).forEach((entry, i) => {
+            if (i < l){
+                $(entry).removeClass('select');
+                $(entry).children('div.topbtn').children('img').attr('src', `../img/${entry[1].attributes.type.value === "file" ? 'fil' : 'fld'}.png`);
+            } else {
+                return
+            }
+        });
+    }
 }
 
 //deselect all
@@ -114,6 +123,17 @@ ipcRenderer.on('goto', (e, loc) => {
     goTo(loc, 1);
 })
 
+//back and forth
+
+function goBack(){
+    hindex -= (hindex > 0 ? 1 : 0)
+    return hist[hindex]
+}
+function goForth(){
+    hindex += ((hindex + 1) < hist.length ? 1 : 0)
+    return hist[hindex]
+}
+
 //menu panel toggle
 
 function menuPanel(){
@@ -124,14 +144,7 @@ function menuPanel(){
 //render function (TODO replace)
 
 function render(args){
-    if (args.type === 'folder'){
-        $('#filelist').html(args.pagedata);
-        pathString = args.pathString;
-        $('#pathbox').val(args.pathString);
-        $('#content-box-holder').scrollTop(0);
-    } else {
-        shell.openItem(args.pathString);
-    }
+
 }
 
 //rename initialization
@@ -190,7 +203,20 @@ function goTo(newPathString, navflag) { //NO-jquery
             }
         } else {
             //if everything is okay...
-            render(siftlib.sift(newPathString, navflag));
+            args = siftlib.sift(newPathString, navflag);
+            if (navflag == 1){
+                if (((hindex + 1) !== hist.length) && (hist[hindex] !== pathString)){hist.length = hindex + 1}
+                hindex++
+                hist[hindex] = newPathString;
+            }
+            if (args.type === 'folder'){
+                $('#filelist').html(siftlib.createDirContent(newPathString));
+                pathString = args.pathString;
+                $('#pathbox').val(args.pathString);
+                $('#content-box-holder').scrollTop(0);
+            } else {
+                shell.openItem(args.pathString);
+            }
             if (pathString !== newPathString){ //if we have a new path rendered
                 fs.unwatchFile(pathString); //unwatch all the old paths
                 fs.watch(newPathString, () => { //watch the new directory
