@@ -12,25 +12,11 @@ function sift(pathString, navflag) {
     //if set to 0, history will be ignored. Usuall this is used for library functions that modify the history directly.
     if (fs.statSync(pathString).isFile()) {
         return { 'pathString': pathString, 'type': 'file' };
-    } else {
-        if ((pathString.lastIndexOf('/')+1) !== pathString.length){pathString += '/'}; //correct path name if need-be
+    } else { //correct path name if need-be
         return { 'pathString': pathString, 'type': 'folder' };
     }
 }
 
-function createDirContent(directoryName) { 
-    files = fs.readdirSync(directoryName, { 'encoding': 'utf8', 'withFileTypes': true });
-        let filesout = ``;
-        let foldersout = ``;
-        files.forEach((element) => {
-                if (element.isDirectory()) {
-                foldersout += (`<tr><td type="folder" id="${(element.name.indexOf('.') === 0 ? '\\' : '') + element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
-                } else {
-                filesout += (`<tr><td type="file" id="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
-                }
-        })
-        return foldersout + filesout
-}
 function popCMenu(evt, iscd){
     if (iscd){
         return `
@@ -57,19 +43,15 @@ function popCMenu(evt, iscd){
 }
 function popPMenu(iscd){
     if (iscd) {
-        document.getElementById('nWPanelButton').classList.remove('disable');
-        document.getElementById('nWPanelButton').children[1].innerHTML = 'New Window';
-        document.getElementById('cutPanelButton').classList.add('disable');
-        document.getElementById('copyPanelButton').classList.add('disable');
-        document.getElementById('pastePanelButton').classList.remove('disable');
-        document.getElementById('delPanelButton').classList.add('disable');
+        $('#nWPanelButton div.panelItemText').html('New Window')
+        $('#cutPanelButton').addClass('disable');
+        $('#copyPanelButton').addClass('disable');
+        $('#delPanelButton').addClass('disable');
     } else {
-        document.getElementById('nWPanelButton').classList.remove('disable');
-        document.getElementById('nWPanelButton').children[1].innerHTML = 'Open';
-        document.getElementById('cutPanelButton').classList.remove('disable');
-        document.getElementById('copyPanelButton').classList.remove('disable');
-        document.getElementById('pastePanelButton').classList.remove('disable');
-        document.getElementById('delPanelButton').classList.remove('disable');
+        $('#nWPanelButton div.panelItemText').html('Open')
+        $('#cutPanelButton').removeClass('disable');
+        $('#copyPanelButton').removeClass('disable');
+        $('#delPanelButton').removeClass('disable');
     }
 }
 function clearPMenu(){
@@ -196,4 +178,4 @@ function destroy(itemPath){
     }
     return contentType
 }*/
-module.exports = { createDirContent, sift, popCMenu, openItems, addItems, dumpItems, deleteItems, popPMenu, clearPMenu, newWindow }
+module.exports = { sift, popCMenu, openItems, addItems, dumpItems, deleteItems, popPMenu, clearPMenu, newWindow }

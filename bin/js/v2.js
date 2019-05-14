@@ -141,12 +141,6 @@ function menuPanel(){
     $('#content-box-holder').css('height', `Calc(100% - ${$('#menupanel').css('display') === 'none' ? 70 : 175}px)`);
 }
 
-//render function (TODO replace)
-
-function render(args){
-
-}
-
 //rename initialization
 
 function renameItem(itemName){
@@ -203,19 +197,33 @@ function goTo(newPathString, navflag) { //NO-jquery
             }
         } else {
             //if everything is okay...
-            args = siftlib.sift(newPathString, navflag);
+            type = (fs.statSync(pathString).isFile() ? 'file' : 'folder' )
             if (navflag == 1){
                 if (((hindex + 1) !== hist.length) && (hist[hindex] !== pathString)){hist.length = hindex + 1}
                 hindex++
                 hist[hindex] = newPathString;
             }
-            if (args.type === 'folder'){
-                $('#filelist').html(siftlib.createDirContent(newPathString));
-                pathString = args.pathString;
-                $('#pathbox').val(args.pathString);
+            if (type === 'folder'){
+                $('#filelist').html('')
+                fs.readdir(newPathString, { 'encoding': 'utf8', 'withFileTypes': true }, (err, files) => {
+                    files.forEach((element) => {
+                        if (element.isDirectory()) {
+                            $('#filelist').append(`<tr><td type="folder" id="${(element.name.indexOf('.') === 0 ? '\\' : '') + element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
+                        }
+                    })
+                    files.forEach((element) => {
+                        if(element.isFile()){
+                            $('#filelist').append(`<tr><td type="file" id="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
+                        }
+                    })
+                });
+                if ((pathString.lastIndexOf('/')+1) !== pathString.length){
+                    pathString += '/'
+                };
+                $('#pathbox').val(pathString);
                 $('#content-box-holder').scrollTop(0);
             } else {
-                shell.openItem(args.pathString);
+                shell.openItem(pathString);
             }
             if (pathString !== newPathString){ //if we have a new path rendered
                 fs.unwatchFile(pathString); //unwatch all the old paths
