@@ -63,7 +63,7 @@ $(document).contextmenu((evt) => {
         } //But, in the case of the element's state, if it was already selected, we can just do nothing because the user wants to select what's already been chosen
         $('#context-table').html(siftlib.popCMenu(evt, iscd)) //since we know we have items being selected, we can now populate/draw the context menu
     }//now just position and show it
-    $('#context').css('left', evt.clientX - (evt.clientX > (window.innerWidth - 150) ? 150 : 0));
+    $("#context").css('left', evt.clientX - (evt.clientX > (window.innerWidth - 150) ? 150 : 0));
     $('#context').css('top', evt.clientY - (evt.clientY > (window.innerWidth - 210) ? 210 : 0));
     $('#filelist').removeClass('hover-enabled');
     $('#context').addClass('show');
@@ -197,41 +197,45 @@ function goTo(newPathString, navflag) { //NO-jquery
             }
         } else {
             //if everything is okay...
-            type = (fs.statSync(pathString).isFile() ? 'file' : 'folder' )
-            if (navflag == 1){
-                if (((hindex + 1) !== hist.length) && (hist[hindex] !== pathString)){hist.length = hindex + 1}
-                hindex++
-                hist[hindex] = newPathString;
-            }
-            if (type === 'folder'){
-                $('#filelist').html('')
-                fs.readdir(newPathString, { 'encoding': 'utf8', 'withFileTypes': true }, (err, files) => {
+
+            ftype = (fs.statSync(newPathString).isFile() ? 'file' : 'folder');
+            if (ftype === 'folder') {
+                fs.readdir(newPathString, {'encoding': 'utf8', 'withFileTypes': true}, (err, files) => {
+                    $('#filelist').html('');
                     files.forEach((element) => {
                         if (element.isDirectory()) {
                             $('#filelist').append(`<tr><td type="folder" id="${(element.name.indexOf('.') === 0 ? '\\' : '') + element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fld.png'}"><img src="../img/fld.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
                         }
                     })
                     files.forEach((element) => {
-                        if(element.isFile()){
+                        if (element.isFile()) {
                             $('#filelist').append(`<tr><td type="file" id="${element.name}" class="item"><div class="topbtn" onmouseover="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/chk0.png';};" onmouseout="if(!this.parentElement.classList.contains('select')){this.children[0].src='../img/fil.png'}"><img src="../img/fil.png" onclick="selectItem(this.parentElement.parentElement, 0)"/></div><div class="itemRow" onclick="selectItem(this.parentElement, 1)" ondblclick="goTo(pathString + '${element.name}', 1)"><div class="itemNameText">${element.name}</div></div></td></tr>`)
                         }
                     })
                 });
-                if ((pathString.lastIndexOf('/')+1) !== pathString.length){
-                    pathString += '/'
-                };
-                $('#pathbox').val(pathString);
+                if ((newPathString.lastIndexOf('/') + 1) !== newPathString.length) {
+                    newPathString += '/'
+                }
+                ;
+                $('#pathbox').val(newPathString);
                 $('#content-box-holder').scrollTop(0);
+                if (pathString !== newPathString) { //if we have a new path rendered
+                    if (navflag == 1) { //and we want a history entry
+                        if (((hindex + 1) !== hist.length) && (hist[hindex] !== newPathString)) { //adapt the length of the history array
+                            hist.length = hindex + 1
+                        }
+                        hindex++ //increase the history index by 1
+                        hist[hindex] = newPathString; //make an entry where we are
+                    }                           //also...
+                    //fs.unwatchFile(pathString); //unwatch all the old paths
+                    //fs.watch(newPathString, () => { //watch the new directory
+                        //goTo(pathString); //refresh if we detect anything
+                    //});
+                    pathString = newPathString;
+                }
             } else {
-                shell.openItem(pathString);
+                shell.openItem(newPathString);
             }
-            if (pathString !== newPathString){ //if we have a new path rendered
-                fs.unwatchFile(pathString); //unwatch all the old paths
-                fs.watch(newPathString, () => { //watch the new directory
-                    goTo(pathString); //refresh if we detect anything
-                })
-            }
-            
         }
-    })
-};
+    });
+}
