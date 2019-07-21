@@ -115,11 +115,19 @@ body {
     background-color: rgba(0, 0, 0, 0);
     padding: 0px;
   }
-  .itemlist tr:nth-child(odd){
+  .item{
     background-color: var(--secondary);
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-left: 8px;
+    border-radius: 8px;
   }
-  .itemlist.hover-enabled tr div:hover, .select{
+  .item:hover, .select{
     background-color: var(--trietary);
+    margin-top: 8px;
+    margin-right: 8px;
+    margin-left: 8px;
+    border-radius: 8px;
   }
   .select{
     font-weight: bold;
@@ -177,12 +185,12 @@ body {
   }
   .item, .context-item{
     height: 35px;
-    padding: 0px;
     display: flex;
   }
   .item img, .btmbtn img, .context-item img, .topbtn img, .subject{
     filter: invert(var(--icon-trans));
     padding: 8.5px;
+
   }
   .subject-holder{
     height: 96px;
@@ -196,6 +204,7 @@ body {
   }
   .topbtn:hover, #pathbox:hover, .context-item:hover, .btmbtn:hover, .panelItem:hover {
     background-color: var(--trietary);
+    border-radius: 8px;
   }
   #context.show{
     visibility: visible;
