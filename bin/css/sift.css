@@ -61,6 +61,10 @@ body {
   height: Calc(100% - 70px);
   overflow-y: scroll;
 }
+#pathbox:focus{
+  background-color: var(--secondary);
+
+}
 #titleplace{
   width: -webkit-fill-available;
   height: -webkit-fill-available;
@@ -110,6 +114,7 @@ body {
   #pathbox{
     background-color: var(--primary);
     padding-left: 8px;
+    border-radius: 8px;
   }
   #renbox{
     background-color: rgba(0, 0, 0, 0);
