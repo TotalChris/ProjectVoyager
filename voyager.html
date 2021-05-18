@@ -2,8 +2,10 @@
     <head>
         <title>Voyager File Manager</title>
         <link rel="stylesheet" href="sift.css"/>
+
     </head>
-    <body onload="goToFolder('C:/')">
+    <body>
+
     <div id="titlewrapper">
         <div id="titlebar">
             <div id="bck_btn" onclick="ipcRenderer.send('bck')"><img src="./bin/img/bck.png"/></div>
@@ -12,22 +14,21 @@
             <div id="min_btn" onclick="ipcRenderer.send('min')"><img src="./bin/img/min.png"/></div>
         </div>
     </div>
-        <input type="text" id="pathbox" onkeydown="textFieldKeyHandler(event)"></input>
-        <input type="button" id="gobutton" value="Go" onclick="goToFolder(document.getElementById('pathbox').value)">
-        <div id="content-box-holder">
-            <table id="filelist">
-
-            </table>
+        <div id="top-bar">        
+            <input type="text" id="pathbox" onkeydown=""></input>
+            <input type="button" id="gobutton" value="Go">
         </div>
+        <div id="content-box-holder">
+            <div id="filelist">
+
+            </div>
+        </div>
+        <script src='mav.lib.js' type="module"></script>
+        <script src='item.comp.js'></script>
         <script>
             const { ipcRenderer } = require('electron');
-            ipcRenderer.on('igot', (evt, args) => {
-                if (args.contentType === 'text/html'){
-                    document.getElementById('filelist').innerHTML = args.pagedata;
-                } else {
-                    //set rules for content viewing
-                }
-            });
+            const { fs } = require('fs');
+            const mav = require('./mav.lib.js')
             ipcRenderer.on('maxd', () => {
                 document.getElementById('rsz_btn').innerHTML='<img src="./bin/img/res.png"/>';
                 console.log('maximized on renderer');
@@ -38,18 +39,13 @@
             });
             function textFieldKeyHandler(event) {
                 if (event.key === 'Enter') {
-                    goToFolder(document.getElementById('pathbox').value)
+                    mav.navigate(document.getElementById('pathbox').value)
                 }
                 else {}
             }
-            function goToFolder(path) { //use an onclick here
-                if (path.indexOf('.') === -1) {
-                cd = path;
-                document.getElementById('pathbox').value = path;
-                console.log(path); //log the path here
-                } else {}
-                ipcRenderer.send('getme', path);
-            }
+            pathbox.addEventListener('keydown', (event) => {textFieldKeyHandler(event)})
+            document.querySelector('#gobutton').addEventListener('click', () => {mav.navigate(document.querySelector('#pathbox').value)});
+            document.body.addEventListener('load', () => {mav.navigate('C:/')})
         </script>
     </body>
 </html>

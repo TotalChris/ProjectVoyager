@@ -1,6 +1,5 @@
 #filelist, #pathbox, #gobutton {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 body {
     margin: 0px;
@@ -15,6 +14,7 @@ body {
 #content-box-holder{
     height: 100%;
     overflow: scroll;
+    user-select: none;
 }
   #gobutton{
     width: 9%;
@@ -28,13 +28,19 @@ body {
     width: 100%;
   }
 
-  #filelist td, #pathbox{
-      padding: 8px;
+  #filelist div, #pathbox{
+    padding: 8px;
   }
   
-  #filelist tr:nth-child(even){background-color: #f2f2f2;}
+  #filelist div, #pathbox, #gobutton{
+    background-color: #ffffff;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 5px;
+  }
   
-  #filelist tr:hover {background-color: #ddd;}
+  #filelist div:hover {background-color: #ddd;}
+
   #min_btn, #rsz_btn, #cls_btn {
     float: right;
     height: 35px;
@@ -53,4 +59,8 @@ body {
   }
   #min_btn img, #rsz_btn img, #cls_btn img, #bck_btn img {
     padding: 8.5px;
+  }
+
+  #top-bar{
+    display: flex;
   }
