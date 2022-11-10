@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/TotalChris/ProjectVoyager#readme",
   "dependencies": {
-    "electron": "^4.1.0",
+    "electron": "^18.3.7",
     "jquery": "^3.5.0"
   }
 }
